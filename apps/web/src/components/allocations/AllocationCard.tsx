@@ -51,6 +51,21 @@ export default function AllocationCard({
           )}
         </div>
       )}
+      {(allocation.approvalTxHash || allocation.claimTxHash) && (
+        <div className="mt-3 border-t border-slate-100 pt-3">
+          <p className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">On-chain Verification</p>
+          {allocation.approvalTxHash && (
+            <a href={`https://stellar.expert/explorer/testnet/tx/${allocation.approvalTxHash}`} target="_blank" rel="noreferrer" className="mt-1 block text-xs text-blue-500 hover:underline truncate">
+              Approval: {allocation.approvalTxHash.substring(0, 8)}...{allocation.approvalTxHash.slice(-8)}
+            </a>
+          )}
+          {allocation.claimTxHash && (
+            <a href={`https://stellar.expert/explorer/testnet/tx/${allocation.claimTxHash}`} target="_blank" rel="noreferrer" className="mt-1 block text-xs text-blue-500 hover:underline truncate">
+              Claim: {allocation.claimTxHash.substring(0, 8)}...{allocation.claimTxHash.slice(-8)}
+            </a>
+          )}
+        </div>
+      )}
     </div>
   );
 }

@@ -1,45 +1,73 @@
-// Thin wrapper around the generated TypeScript bindings for the
-// remitcare_allowance contract (Phase 9). Generate real bindings with:
-//
-//   stellar contract bindings typescript \
-//     --network testnet --contract-id <CONTRACT_ID> \
-//     --output-dir packages/remitcare-contract
-//
-// then replace this file's contents with:
-//
-//   export * from "remitcare-contract";
-//
-// This placeholder documents the call shape expected by the frontend so the
-// rest of the app (plans, allocations, claims) can be built against a
-// stable interface before the bindings are generated.
+import { Client, networks } from "remitcare-contract";
+import { Buffer } from "buffer";
 
-export interface ContractClientConfig {
-  contractId: string;
-  networkPassphrase: string;
-  rpcUrl: string;
-  publicKey: string;
-  signTransaction: (xdr: string) => Promise<string>;
+export const contractClient = new Client({
+  ...networks.testnet,
+  rpcUrl: import.meta.env.VITE_STELLAR_RPC_URL as string,
+});
+
+export function padId(id: string): Buffer {
+  const buf = Buffer.alloc(32);
+  buf.write(id, 0, "utf-8");
+  return buf;
 }
 
-export interface RemitCareContract {
-  createPlan(planId: string, sender: string, receiver: string): Promise<string>;
-  fundPlan(planId: string, amount: bigint): Promise<string>;
-  createAllocation(
-    planId: string,
-    allocationId: string,
-    purposeHash: string,
-    amount: bigint,
-    releaseAt: bigint
-  ): Promise<string>;
-  requestRelease(allocationId: string): Promise<string>;
-  approveRelease(allocationId: string): Promise<string>;
-  claimAllocation(allocationId: string): Promise<string>;
-  cancelAllocation(allocationId: string): Promise<string>;
-  refundRemaining(planId: string): Promise<string>;
-}
-
-export function getContractClient(_config: ContractClientConfig): RemitCareContract {
-  throw new Error(
-    "Contract bindings not generated yet — run `stellar contract bindings typescript` (Phase 9) and wire them in here."
+export async function buildFundPlanTx(planId: string, amount: string, publicKey: string) {
+  const tx = await contractClient.fund_plan(
+    { plan_id: padId(planId), amount: BigInt(amount) },
+    { publicKey, fee: "100000" }
   );
+  return tx.built!.toXDR();
+}
+
+export async function buildCreateAllocationTx(
+  planId: string,
+  allocationId: string,
+  purpose: string,
+  amount: string,
+  publicKey: string
+) {
+  const tx = await contractClient.create_allocation(
+    {
+      plan_id: padId(planId),
+      allocation_id: padId(allocationId),
+      purpose_hash: padId(purpose),
+      amount: BigInt(amount),
+      release_at: 0n,
+    },
+    { publicKey, fee: "100000" }
+  );
+  return tx.built!.toXDR();
+}
+
+export async function buildRequestReleaseTx(allocationId: string, publicKey: string) {
+  const tx = await contractClient.request_release(
+    { allocation_id: padId(allocationId) },
+    { publicKey, fee: "100000" }
+  );
+  return tx.built!.toXDR();
+}
+
+export async function buildApproveReleaseTx(allocationId: string, publicKey: string) {
+  const tx = await contractClient.approve_release(
+    { allocation_id: padId(allocationId) },
+    { publicKey, fee: "100000" }
+  );
+  return tx.built!.toXDR();
+}
+
+export async function buildClaimAllocationTx(allocationId: string, publicKey: string) {
+  const tx = await contractClient.claim_allocation(
+    { allocation_id: padId(allocationId) },
+    { publicKey, fee: "100000" }
+  );
+  return tx.built!.toXDR();
+}
+
+export async function buildCancelAllocationTx(allocationId: string, publicKey: string) {
+  const tx = await contractClient.cancel_allocation(
+    { allocation_id: padId(allocationId) },
+    { publicKey, fee: "100000" }
+  );
+  return tx.built!.toXDR();
 }
