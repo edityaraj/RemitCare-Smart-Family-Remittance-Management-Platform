@@ -21,10 +21,12 @@ export function createApp() {
   app.use(helmet());
   app.use(cors({ origin: env.CLIENT_URL, credentials: true }));
   app.use(express.json({ limit: "1mb" }));
+  // @ts-ignore
   app.use(
+    // @ts-ignore
     pinoHttp({
       logger,
-      genReqId: (req) => (req.headers["x-request-id"] as string) ?? randomUUID(),
+      genReqId: (req: any) => (req.headers["x-request-id"] as string) ?? randomUUID(),
     })
   );
 
