@@ -3,6 +3,8 @@ import { RemittancePlan } from "../models/RemittancePlan.js";
 import { WalletInteraction } from "../models/WalletInteraction.js";
 import { ApiError } from "../middleware/errorHandler.js";
 
+import { User } from "../models/User.js";
+
 export async function createPlan(req: Request, res: Response) {
   const body = req.body;
   const plan = await RemittancePlan.create({
@@ -21,8 +23,15 @@ export async function createPlan(req: Request, res: Response) {
 }
 
 export async function listPlans(req: Request, res: Response) {
-  const filter =
-    req.user!.role === "sender" ? { senderId: req.user!.userId } : { receiverId: req.user!.userId };
+  let filter: any = {};
+  if (req.user!.role === "sender") {
+    filter = { senderId: req.user!.userId };
+  } else {
+    const user = await User.findById(req.user!.userId);
+    filter = user?.walletAddress 
+      ? { receiverWallet: user.walletAddress } 
+      : { receiverId: req.user!.userId }; // fallback if wallet not linked yet
+  }
   const plans = await RemittancePlan.find(filter).sort({ createdAt: -1 });
   res.json({ plans });
 }

@@ -17,6 +17,7 @@ export type Purpose = "education" | "healthcare" | "food" | "rent" | "allowance"
 export interface RemittancePlan {
   _id: string;
   planId: string;
+  contractPlanId: string;
   senderWallet: string;
   receiverWallet: string;
   title: string;
@@ -37,5 +38,7 @@ export interface Allocation {
   title: string;
   amount: string;
   status: AllocationStatus;
+  approvalTxHash?: string;
+  claimTxHash?: string;
   createdAt: string;
 }

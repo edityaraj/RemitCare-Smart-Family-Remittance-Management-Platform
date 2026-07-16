@@ -6,11 +6,23 @@ import { api } from "@/services/api";
 import StatusBadge from "@/components/dashboard/StatusBadge";
 import AllocationCard from "@/components/allocations/AllocationCard";
 import type { Allocation, RemittancePlan } from "@/types";
+import {
+  buildFundPlanTx,
+  buildRequestReleaseTx,
+  buildApproveReleaseTx,
+  buildClaimAllocationTx,
+  buildCancelAllocationTx,
+  buildCreateAllocationTx
+} from "@/services/contract";
+import { signXdr } from "@/services/freighter";
+import { submitTransaction } from "@/services/stellar";
+import { useWallet } from "@/hooks/useWallet";
 
 export default function PlanDetail() {
   const { id } = useParams();
   const qc = useQueryClient();
   const [showNewAllocation, setShowNewAllocation] = useState(false);
+  const { address } = useWallet();
 
   const { data: plan } = useQuery({
     queryKey: ["plan", id],
@@ -24,14 +36,21 @@ export default function PlanDetail() {
   });
 
   async function handleAction(allocation: Allocation, action: "request" | "approve" | "claim" | "cancel") {
+    if (!address) return toast.error("Connect your wallet first");
     try {
-      // NOTE: each of these should first call the matching contract method
-      // (request_release / approve_release / claim_allocation /
-      // cancel_allocation), await confirmation, then hit the *-record
-      // endpoint below with the real tx hash. Simplified here for scaffold
-      // clarity — see contracts/remitcare_allowance/src/lib.rs for the
-      // on-chain rules each call enforces.
-      const txHash = `PENDING_${crypto.randomUUID()}`;
+      toast.info(`Generating ${action} transaction...`);
+      let xdr;
+      if (action === "request") xdr = await buildRequestReleaseTx(allocation.allocationId, address);
+      else if (action === "approve") xdr = await buildApproveReleaseTx(allocation.allocationId, address);
+      else if (action === "claim") xdr = await buildClaimAllocationTx(allocation.allocationId, address);
+      else xdr = await buildCancelAllocationTx(allocation.allocationId, address);
+
+      toast.info("Please sign the transaction...");
+      const signedXdr = await signXdr(xdr, "Test SDF Network ; September 2015");
+      
+      toast.info("Submitting transaction to Stellar network...");
+      const txHash = await submitTransaction(signedXdr);
+
       const endpoint =
         action === "request"
           ? `/allocations/${allocation.allocationId}/request`
@@ -42,22 +61,32 @@ export default function PlanDetail() {
           : `/allocations/${allocation.allocationId}/cancel-record`;
 
       await api.post(endpoint, action === "cancel" ? {} : { txHash });
-      toast.success(`Allocation ${action} recorded`);
+      toast.success(`Allocation ${action} confirmed on-chain!`);
       qc.invalidateQueries({ queryKey: ["allocations", id] });
     } catch (err: any) {
-      toast.error(err?.response?.data?.error ?? `Could not ${action} allocation`);
+      console.error(err);
+      toast.error(err?.message || err?.response?.data?.error || `Could not ${action} allocation`);
     }
   }
 
   async function handleFundPlan() {
+    if (!address) return toast.error("Connect your wallet first");
     try {
-      // Mocking the on-chain funding for the prototype
-      const txHash = `FUND_${crypto.randomUUID()}`;
+      toast.info("Generating funding transaction...");
+      const xdr = await buildFundPlanTx(plan!.contractPlanId, plan!.totalAmount, address);
+      
+      toast.info("Please sign the transaction in Freighter...");
+      const signedXdr = await signXdr(xdr, "Test SDF Network ; September 2015");
+      
+      toast.info("Submitting transaction to Stellar network...");
+      const txHash = await submitTransaction(signedXdr);
+
       await api.post(`/plans/${id}/funding-record`, { amount: plan?.totalAmount, txHash });
-      toast.success("Plan funded successfully!");
+      toast.success("Plan funded successfully on-chain!");
       qc.invalidateQueries({ queryKey: ["plan", id] });
     } catch (err: any) {
-      toast.error(err?.response?.data?.error ?? "Could not fund plan");
+      console.error(err);
+      toast.error(err?.message || err?.response?.data?.error || "Could not fund plan");
     }
   }
 
@@ -108,7 +137,7 @@ export default function PlanDetail() {
         </button>
       </div>
 
-      {showNewAllocation && <NewAllocationForm planId={id!} onCreated={() => qc.invalidateQueries({ queryKey: ["allocations", id] })} />}
+      {showNewAllocation && <NewAllocationForm plan={plan!} onCreated={() => qc.invalidateQueries({ queryKey: ["allocations", id] })} />}
 
       {isLoading ? (
         <p className="mt-4 text-sm text-slate-400">Loading allocations…</p>
@@ -123,22 +152,36 @@ export default function PlanDetail() {
   );
 }
 
-function NewAllocationForm({ planId, onCreated }: { planId: string; onCreated: () => void }) {
+function NewAllocationForm({ plan, onCreated }: { plan: RemittancePlan; onCreated: () => void }) {
   const [form, setForm] = useState({ purpose: "education", title: "", amount: "" });
   const [submitting, setSubmitting] = useState(false);
+  const { address } = useWallet();
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!address) return toast.error("Connect wallet first");
     setSubmitting(true);
     try {
-      await api.post(`/plans/${planId}/allocations`, {
+      const allocationId = crypto.randomUUID().replace(/-/g, "");
+      toast.info("Generating allocation transaction...");
+      const xdr = await buildCreateAllocationTx(plan.contractPlanId, allocationId, form.purpose, form.amount, address);
+      
+      toast.info("Please sign the transaction...");
+      const signedXdr = await signXdr(xdr, "Test SDF Network ; September 2015");
+      
+      toast.info("Submitting to Stellar network...");
+      const txHash = await submitTransaction(signedXdr);
+
+      await api.post(`/plans/${plan._id}/allocations`, {
         ...form,
-        allocationId: crypto.randomUUID().replace(/-/g, ""),
+        allocationId,
+        txHash,
       });
-      toast.success("Allocation created");
+      toast.success("Allocation created on-chain!");
       onCreated();
     } catch (err: any) {
-      toast.error(err?.response?.data?.error ?? "Could not create allocation");
+      console.error(err);
+      toast.error(err?.message || err?.response?.data?.error || "Could not create allocation");
     } finally {
       setSubmitting(false);
     }
