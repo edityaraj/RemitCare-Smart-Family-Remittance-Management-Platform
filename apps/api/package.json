@@ -23,9 +23,7 @@
     "express-rate-limit": "^7.3.1",
     "pino": "^9.2.0",
     "pino-http": "^10.1.0",
-    "@sentry/node": "^8.9.2"
-  },
-  "devDependencies": {
+    "@sentry/node": "^8.9.2",
     "typescript": "^5.5.3",
     "tsx": "^4.16.2",
     "vitest": "^2.0.3",
@@ -36,5 +34,6 @@
     "@types/bcryptjs": "^2.4.6",
     "@types/cors": "^2.8.17",
     "@types/supertest": "^6.0.2"
-  }
+  },
+  "devDependencies": {}
 }
