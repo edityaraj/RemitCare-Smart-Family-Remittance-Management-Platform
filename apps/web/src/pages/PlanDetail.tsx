@@ -49,6 +49,18 @@ export default function PlanDetail() {
     }
   }
 
+  async function handleFundPlan() {
+    try {
+      // Mocking the on-chain funding for the prototype
+      const txHash = `FUND_${crypto.randomUUID()}`;
+      await api.post(`/plans/${id}/fund-record`, { amount: plan?.totalAmount, txHash });
+      toast.success("Plan funded successfully!");
+      qc.invalidateQueries({ queryKey: ["plan", id] });
+    } catch (err: any) {
+      toast.error(err?.response?.data?.error ?? "Could not fund plan");
+    }
+  }
+
   if (!plan) return <div className="mx-auto max-w-4xl px-4 py-10 text-sm text-slate-400">Loading plan…</div>;
 
   return (
@@ -58,7 +70,17 @@ export default function PlanDetail() {
           <h1 className="text-2xl font-semibold text-navy">{plan.title}</h1>
           {plan.description && <p className="mt-1 text-slate-500">{plan.description}</p>}
         </div>
-        <StatusBadge status={plan.status} />
+        <div className="flex items-center gap-4">
+          {plan.status === "draft" && (
+            <button
+              onClick={handleFundPlan}
+              className="rounded-md bg-emerald px-4 py-2 text-sm font-medium text-white hover:bg-emerald-600 transition-colors"
+            >
+              Fund Plan
+            </button>
+          )}
+          <StatusBadge status={plan.status} />
+        </div>
       </div>
 
       <div className="mt-6 grid grid-cols-3 gap-4">
