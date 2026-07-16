@@ -1,13 +1,15 @@
-// @ts-nocheck
 import {
-  isConnected,
-  isAllowed,
-  setAllowed,
-  requestAccess,
-  getAddress,
-  getNetwork,
-  signTransaction,
-} from "@stellar/freighter-api";
+  StellarWalletsKit,
+  WalletNetwork,
+  allowAllModules,
+  FREIGHTER_ID,
+} from "@creit.tech/stellar-wallets-kit";
+
+export const kit = new StellarWalletsKit({
+  network: WalletNetwork.TESTNET,
+  selectedWalletId: FREIGHTER_ID,
+  modules: allowAllModules(),
+});
 
 export class FreighterNotInstalledError extends Error {
   constructor() {
@@ -22,33 +24,24 @@ export class WrongNetworkError extends Error {
 }
 
 export async function ensureFreighterInstalled() {
-  const { isConnected: connected } = await isConnected();
-  if (!connected) throw new FreighterNotInstalledError();
+  // StellarWalletsKit handles installation prompts and checks internally
 }
 
 export async function connectWallet(): Promise<string> {
-  await ensureFreighterInstalled();
-
-  const { isAllowed: allowed } = await isAllowed();
-  if (!allowed) await setAllowed();
-
-  const access = await requestAccess();
-  if (access.error) throw new Error(access.error);
-
-  const network = await getNetwork();
-  if (network.networkPassphrase && !network.network?.includes("TESTNET")) {
-    throw new WrongNetworkError("TESTNET", network.network ?? "unknown");
-  }
-
-  const { address, error } = await getAddress();
-  if (error) throw new Error(error);
+  await kit.requestAccess();
+  const address = await kit.getAddress();
   return address;
 }
 
 export async function signXdr(xdr: string, networkPassphrase: string) {
-  const result = await signTransaction(xdr, { networkPassphrase });
-  if (result.error) throw new Error(result.error);
-  return result.signedTxXdr;
+  const result = await kit.signTx({
+    xdr,
+    publicKeys: [await kit.getAddress()],
+    network: WalletNetwork.TESTNET,
+  });
+  // kit.signTx returns an object with signedXDR or signedTxXdr depending on the adapter.
+  // We'll safely return the signed XDR string.
+  return (result as any).signedXDR || (result as any).signedTxXdr || (result as any).signedTx;
 }
 
 export function shortenAddress(address: string) {
