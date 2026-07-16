@@ -28,20 +28,17 @@ export async function ensureFreighterInstalled() {
 }
 
 export async function connectWallet(): Promise<string> {
-  await kit.requestAccess();
-  const address = await kit.getAddress();
+  const { address } = await kit.getAddress();
   return address;
 }
 
 export async function signXdr(xdr: string, networkPassphrase: string) {
-  const result = await kit.signTx({
-    xdr,
-    publicKeys: [await kit.getAddress()],
-    network: WalletNetwork.TESTNET,
+  const { address } = await kit.getAddress();
+  const { signedTxXdr } = await kit.signTransaction(xdr, {
+    address,
+    networkPassphrase,
   });
-  // kit.signTx returns an object with signedXDR or signedTxXdr depending on the adapter.
-  // We'll safely return the signed XDR string.
-  return (result as any).signedXDR || (result as any).signedTxXdr || (result as any).signedTx;
+  return signedTxXdr;
 }
 
 export function shortenAddress(address: string) {
