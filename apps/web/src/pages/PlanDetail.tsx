@@ -53,7 +53,7 @@ export default function PlanDetail() {
     try {
       // Mocking the on-chain funding for the prototype
       const txHash = `FUND_${crypto.randomUUID()}`;
-      await api.post(`/plans/${id}/fund-record`, { amount: plan?.totalAmount, txHash });
+      await api.post(`/plans/${id}/funding-record`, { amount: plan?.totalAmount, txHash });
       toast.success("Plan funded successfully!");
       qc.invalidateQueries({ queryKey: ["plan", id] });
     } catch (err: any) {
