@@ -65,7 +65,7 @@ export default function PlanDetail() {
       qc.invalidateQueries({ queryKey: ["allocations", id] });
     } catch (err: any) {
       console.error(err);
-      toast.error(err?.message || err?.response?.data?.error || `Could not ${action} allocation`);
+      toast.error(err?.response?.data?.error || err?.message || `Could not ${action} allocation`);
     }
   }
 
@@ -86,7 +86,7 @@ export default function PlanDetail() {
       qc.invalidateQueries({ queryKey: ["plan", id] });
     } catch (err: any) {
       console.error(err);
-      toast.error(err?.message || err?.response?.data?.error || "Could not fund plan");
+      toast.error(err?.response?.data?.error || err?.message || "Could not fund plan");
     }
   }
 
@@ -181,7 +181,7 @@ function NewAllocationForm({ plan, onCreated }: { plan: RemittancePlan; onCreate
       onCreated();
     } catch (err: any) {
       console.error(err);
-      toast.error(err?.message || err?.response?.data?.error || "Could not create allocation");
+      toast.error(err?.response?.data?.error || err?.message || "Could not create allocation");
     } finally {
       setSubmitting(false);
     }

@@ -48,7 +48,7 @@ export default function PlanNew() {
       navigate(`/plans/${data.plan._id}`);
     } catch (err: any) {
       console.error(err);
-      toast.error(err?.message || err?.response?.data?.error || "Could not create plan");
+      toast.error(err?.response?.data?.error || err?.message || "Could not create plan");
     } finally {
       setSubmitting(false);
     }
