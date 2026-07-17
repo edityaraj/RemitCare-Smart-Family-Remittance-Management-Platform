@@ -54,7 +54,7 @@ export async function recordFunding(req: Request, res: Response) {
   if (existing) throw new ApiError(409, "Transaction already recorded");
 
   plan.fundedAmount = String(Number(plan.fundedAmount) + Number(amount));
-  plan.remainingAmount = String(Number(plan.totalAmount) - Number(plan.fundedAmount));
+  plan.remainingAmount = String(Number(plan.fundedAmount) - Number(plan.releasedAmount));
   plan.status = "active";
   plan.fundingTxHash = txHash;
   await plan.save();
