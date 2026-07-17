@@ -8,6 +8,7 @@ import type { RemittancePlan } from "@/types";
 
 export default function SenderDashboard() {
   const [filter, setFilter] = useState<"all" | "active" | "completed">("all");
+  const [showBanner, setShowBanner] = useState(true);
 
   const { data, isLoading } = useQuery({
     queryKey: ["plans", "sender"],
@@ -32,6 +33,28 @@ export default function SenderDashboard() {
           + New plan
         </Link>
       </div>
+
+      {showBanner && (
+        <div className="mt-6 rounded-lg border border-emerald-200 bg-emerald-50 p-4">
+          <div className="flex items-start justify-between">
+            <div>
+              <h3 className="text-sm font-medium text-emerald-800">Welcome to RemitCare! 👋</h3>
+              <div className="mt-2 text-sm text-emerald-700">
+                <p>Getting started is simple:</p>
+                <ul className="ml-5 mt-1 list-disc space-y-1">
+                  <li>Click <strong>+ New plan</strong> to create a remittance budget (e.g. "College Tuition").</li>
+                  <li>Fund the plan using your Stellar wallet.</li>
+                  <li>Your receiver will request allocations, and you approve them right here!</li>
+                </ul>
+              </div>
+            </div>
+            <button onClick={() => setShowBanner(false)} className="text-emerald-500 hover:text-emerald-700">
+              <span className="sr-only">Dismiss</span>
+              &times;
+            </button>
+          </div>
+        </div>
+      )}
 
       <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
         <BalanceCard label="Total sent" value={totalSent.toLocaleString()} />
