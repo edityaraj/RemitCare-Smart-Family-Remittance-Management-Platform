@@ -12,6 +12,14 @@ export function padId(id: string): Buffer {
   return buf;
 }
 
+export async function buildCreatePlanTx(planId: string, sender: string, receiver: string, publicKey: string) {
+  const tx = await contractClient.create_plan(
+    { plan_id: padId(planId), sender, receiver },
+    { publicKey, fee: "100000" }
+  );
+  return tx.built!.toXDR();
+}
+
 export async function buildFundPlanTx(planId: string, amount: string, publicKey: string) {
   const tx = await contractClient.fund_plan(
     { plan_id: padId(planId), amount: BigInt(amount) },
