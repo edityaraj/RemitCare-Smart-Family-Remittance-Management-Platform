@@ -42,7 +42,15 @@ export default function ReceiverDashboard() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
-      <h1 className="text-2xl font-semibold text-navy">Receiver dashboard</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-semibold text-navy">Receiver dashboard</h1>
+        <button 
+          onClick={() => toast.info("Fiat off-ramp conversion feature coming soon!")}
+          className="rounded-md bg-emerald/10 text-emerald-700 px-4 py-2 text-sm font-medium hover:bg-emerald/20 transition-colors"
+        >
+          Convert to Local Currency
+        </button>
+      </div>
 
       <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
         <BalanceCard label="Total received" value={totalReceived.toLocaleString()} />
