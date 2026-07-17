@@ -12,18 +12,24 @@ export function padId(id: string): Buffer {
   return buf;
 }
 
+export function toStroops(amount: string): bigint {
+  const parsed = parseFloat(amount);
+  if (isNaN(parsed) || parsed <= 0) throw new Error("Invalid token amount");
+  return BigInt(Math.floor(parsed * 1e7));
+}
+
 export async function buildCreatePlanTx(planId: string, sender: string, receiver: string, publicKey: string) {
   const tx = await contractClient.create_plan(
     { plan_id: padId(planId), sender, receiver },
-    { publicKey, fee: "100000" }
+    { publicKey }
   );
   return tx.built!.toXDR();
 }
 
 export async function buildFundPlanTx(planId: string, amount: string, publicKey: string) {
   const tx = await contractClient.fund_plan(
-    { plan_id: padId(planId), amount: BigInt(amount) },
-    { publicKey, fee: "100000" }
+    { plan_id: padId(planId), amount: toStroops(amount) },
+    { publicKey }
   );
   return tx.built!.toXDR();
 }
@@ -40,10 +46,10 @@ export async function buildCreateAllocationTx(
       plan_id: padId(planId),
       allocation_id: padId(allocationId),
       purpose_hash: padId(purpose),
-      amount: BigInt(amount),
+      amount: toStroops(amount),
       release_at: 0n,
     },
-    { publicKey, fee: "100000" }
+    { publicKey }
   );
   return tx.built!.toXDR();
 }
@@ -51,7 +57,7 @@ export async function buildCreateAllocationTx(
 export async function buildRequestReleaseTx(allocationId: string, publicKey: string) {
   const tx = await contractClient.request_release(
     { allocation_id: padId(allocationId) },
-    { publicKey, fee: "100000" }
+    { publicKey }
   );
   return tx.built!.toXDR();
 }
@@ -59,7 +65,7 @@ export async function buildRequestReleaseTx(allocationId: string, publicKey: str
 export async function buildApproveReleaseTx(allocationId: string, publicKey: string) {
   const tx = await contractClient.approve_release(
     { allocation_id: padId(allocationId) },
-    { publicKey, fee: "100000" }
+    { publicKey }
   );
   return tx.built!.toXDR();
 }
@@ -67,7 +73,7 @@ export async function buildApproveReleaseTx(allocationId: string, publicKey: str
 export async function buildClaimAllocationTx(allocationId: string, publicKey: string) {
   const tx = await contractClient.claim_allocation(
     { allocation_id: padId(allocationId) },
-    { publicKey, fee: "100000" }
+    { publicKey }
   );
   return tx.built!.toXDR();
 }
@@ -75,7 +81,7 @@ export async function buildClaimAllocationTx(allocationId: string, publicKey: st
 export async function buildCancelAllocationTx(allocationId: string, publicKey: string) {
   const tx = await contractClient.cancel_allocation(
     { allocation_id: padId(allocationId) },
-    { publicKey, fee: "100000" }
+    { publicKey }
   );
   return tx.built!.toXDR();
 }
