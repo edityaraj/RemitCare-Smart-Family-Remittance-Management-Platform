@@ -63,6 +63,7 @@ export default function PlanDetail() {
       await api.post(endpoint, action === "cancel" ? {} : { txHash });
       toast.success(`Allocation ${action} confirmed on-chain!`);
       qc.invalidateQueries({ queryKey: ["allocations", id] });
+      qc.invalidateQueries({ queryKey: ["plan", id] });
     } catch (err: any) {
       console.error(err);
       toast.error(err?.response?.data?.error || err?.message || `Could not ${action} allocation`);
