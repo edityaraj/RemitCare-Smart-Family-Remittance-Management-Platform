@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { api } from "@/services/api";
@@ -6,6 +7,8 @@ import PlanCard from "@/components/plans/PlanCard";
 import type { RemittancePlan } from "@/types";
 
 export default function SenderDashboard() {
+  const [filter, setFilter] = useState<"all" | "active" | "completed">("all");
+
   const { data, isLoading } = useQuery({
     queryKey: ["plans", "sender"],
     queryFn: async () => (await api.get<{ plans: RemittancePlan[] }>("/plans")).data.plans,
@@ -15,6 +18,11 @@ export default function SenderDashboard() {
   const totalSent = plans.reduce((sum, p) => sum + Number(p.fundedAmount || 0), 0);
   const remaining = plans.reduce((sum, p) => sum + Number(p.remainingAmount || 0), 0);
   const active = plans.filter((p) => p.status === "active").length;
+
+  const filteredPlans = plans.filter((p) => {
+    if (filter === "all") return true;
+    return p.status === filter;
+  });
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
@@ -32,14 +40,26 @@ export default function SenderDashboard() {
         <BalanceCard label="Total plans" value={String(plans.length)} />
       </div>
 
-      <h2 className="mt-10 text-lg font-medium text-navy">Your plans</h2>
+      <div className="mt-10 flex items-center justify-between">
+        <h2 className="text-lg font-medium text-navy">Your plans</h2>
+        <select
+          value={filter}
+          onChange={(e) => setFilter(e.target.value as any)}
+          className="rounded-md border-gray-300 py-1.5 pl-3 pr-8 text-sm focus:border-emerald-500 focus:outline-none focus:ring-emerald-500 bg-white"
+        >
+          <option value="all">All Plans</option>
+          <option value="active">Active</option>
+          <option value="completed">Completed</option>
+        </select>
+      </div>
+      
       {isLoading ? (
         <p className="mt-4 text-sm text-slate-400">Loading plans…</p>
-      ) : plans.length === 0 ? (
-        <p className="mt-4 text-sm text-slate-400">No plans yet. Create your first remittance plan to get started.</p>
+      ) : filteredPlans.length === 0 ? (
+        <p className="mt-4 text-sm text-slate-400">No plans found matching the filter.</p>
       ) : (
         <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {plans.map((plan) => (
+          {filteredPlans.map((plan) => (
             <PlanCard key={plan._id} plan={plan} />
           ))}
         </div>
