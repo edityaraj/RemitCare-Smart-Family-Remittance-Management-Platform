@@ -1,10 +1,36 @@
-import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 import { api } from "@/services/api";
+import { useAuth } from "@/hooks/useAuth";
+import { useWallet } from "@/hooks/useWallet";
 import BalanceCard from "@/components/dashboard/BalanceCard";
 import PlanCard from "@/components/plans/PlanCard";
 import type { RemittancePlan } from "@/types";
 
 export default function ReceiverDashboard() {
+  const qc = useQueryClient();
+  const { user, refreshUser } = useAuth();
+  const { address } = useWallet();
+
+  useEffect(() => {
+    if (user && address && user.walletAddress !== address) {
+      // Auto-link connected wallet to user profile
+      const linkWallet = async () => {
+        try {
+          await api.post("/auth/wallet/challenge", { walletAddress: address });
+          await api.post("/auth/wallet/verify", { walletAddress: address, signedChallenge: "dev_unsigned" });
+          toast.success("Wallet successfully linked to your profile!");
+          await refreshUser();
+          qc.invalidateQueries({ queryKey: ["plans", "receiver"] });
+        } catch (err) {
+          console.error("Failed to link wallet", err);
+        }
+      };
+      linkWallet();
+    }
+  }, [user, address, qc, refreshUser]);
+
   const { data, isLoading } = useQuery({
     queryKey: ["plans", "receiver"],
     queryFn: async () => (await api.get<{ plans: RemittancePlan[] }>("/plans")).data.plans,

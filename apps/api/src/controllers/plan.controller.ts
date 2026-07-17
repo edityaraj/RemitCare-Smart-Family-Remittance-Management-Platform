@@ -18,6 +18,7 @@ export async function createPlan(req: Request, res: Response) {
     tokenContractId: body.tokenContractId,
     contractPlanId: body.contractPlanId,
     status: "draft",
+    creationTxHash: body.creationTxHash,
   });
   res.status(201).json({ plan });
 }
