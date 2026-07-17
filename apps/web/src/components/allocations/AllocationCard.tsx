@@ -28,7 +28,7 @@ export default function AllocationCard({
       <h4 className="mt-2 font-medium text-navy">{allocation.title}</h4>
       <p className="text-sm text-slate-500">{allocation.amount} tokens</p>
       {onAction && (
-        <div className="mt-3 flex gap-2">
+        <div className="mt-3 flex flex-wrap gap-2">
           {allocation.status === "created" && (
             <button onClick={() => onAction("request")} className="text-xs font-medium text-emerald-600 hover:underline">
               Request release
@@ -43,6 +43,14 @@ export default function AllocationCard({
             <button onClick={() => onAction("claim")} className="text-xs font-medium text-emerald-600 hover:underline">
               Claim
             </button>
+          )}
+          {allocation.status === "claimed" && (
+            <div className="flex items-center gap-2">
+              <label htmlFor={`receipt-${allocation._id}`} className="cursor-pointer text-xs font-medium text-emerald-600 hover:underline">
+                Upload Receipt
+              </label>
+              <input id={`receipt-${allocation._id}`} type="file" className="hidden" onChange={(e) => { if(e.target.files?.length) alert("Receipt upload feature coming soon!"); }} />
+            </div>
           )}
           {["created", "requested"].includes(allocation.status) && (
             <button onClick={() => onAction("cancel")} className="text-xs font-medium text-red-500 hover:underline">
