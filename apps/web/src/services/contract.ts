@@ -21,7 +21,7 @@ export function toStroops(amount: string): bigint {
 export async function buildCreatePlanTx(planId: string, sender: string, receiver: string, publicKey: string) {
   const tx = await contractClient.create_plan(
     { plan_id: padId(planId), sender, receiver },
-    { publicKey }
+    { publicKey, fee: "100000" }
   );
   return tx.built!.toXDR();
 }
@@ -29,7 +29,7 @@ export async function buildCreatePlanTx(planId: string, sender: string, receiver
 export async function buildFundPlanTx(planId: string, amount: string, publicKey: string) {
   const tx = await contractClient.fund_plan(
     { plan_id: padId(planId), amount: toStroops(amount) },
-    { publicKey }
+    { publicKey, fee: "100000" }
   );
   return tx.built!.toXDR();
 }
@@ -49,7 +49,7 @@ export async function buildCreateAllocationTx(
       amount: toStroops(amount),
       release_at: 0n,
     },
-    { publicKey }
+    { publicKey, fee: "100000" }
   );
   return tx.built!.toXDR();
 }
@@ -57,7 +57,7 @@ export async function buildCreateAllocationTx(
 export async function buildRequestReleaseTx(allocationId: string, publicKey: string) {
   const tx = await contractClient.request_release(
     { allocation_id: padId(allocationId) },
-    { publicKey }
+    { publicKey, fee: "100000" }
   );
   return tx.built!.toXDR();
 }
@@ -65,7 +65,7 @@ export async function buildRequestReleaseTx(allocationId: string, publicKey: str
 export async function buildApproveReleaseTx(allocationId: string, publicKey: string) {
   const tx = await contractClient.approve_release(
     { allocation_id: padId(allocationId) },
-    { publicKey }
+    { publicKey, fee: "100000" }
   );
   return tx.built!.toXDR();
 }
@@ -73,7 +73,7 @@ export async function buildApproveReleaseTx(allocationId: string, publicKey: str
 export async function buildClaimAllocationTx(allocationId: string, publicKey: string) {
   const tx = await contractClient.claim_allocation(
     { allocation_id: padId(allocationId) },
-    { publicKey }
+    { publicKey, fee: "100000" }
   );
   return tx.built!.toXDR();
 }
@@ -81,7 +81,7 @@ export async function buildClaimAllocationTx(allocationId: string, publicKey: st
 export async function buildCancelAllocationTx(allocationId: string, publicKey: string) {
   const tx = await contractClient.cancel_allocation(
     { allocation_id: padId(allocationId) },
-    { publicKey }
+    { publicKey, fee: "100000" }
   );
   return tx.built!.toXDR();
 }
