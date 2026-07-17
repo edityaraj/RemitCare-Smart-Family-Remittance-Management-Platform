@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { api } from "@/services/api";
 import { useWallet } from "@/hooks/useWallet";
+import { buildCreatePlanTx } from "@/services/contract";
+import { signXdr } from "@/services/freighter";
+import { submitTransaction } from "@/services/stellar";
 
 // Flow (Phase 10): validate form -> generate plan id -> create_plan() on
 // contract -> sign with Freighter -> wait for confirmation -> fund_plan() ->
@@ -25,10 +28,15 @@ export default function PlanNew() {
     }
     setSubmitting(true);
     try {
-      // TODO (Phase 10): call contract.createPlan(...) + contract.fundPlan(...)
-      // here once bindings are generated, then persist the resulting
-      // contractPlanId + tx hash below instead of a locally generated id.
       const contractPlanId = crypto.randomUUID().replace(/-/g, "");
+      toast.info("Generating contract transaction...");
+      const xdr = await buildCreatePlanTx(contractPlanId, address, form.receiverWallet, address);
+      
+      toast.info("Please sign the transaction in Freighter...");
+      const signedXdr = await signXdr(xdr, import.meta.env.VITE_STELLAR_NETWORK_PASSPHRASE || "Test SDF Network ; September 2015");
+      
+      toast.info("Submitting transaction to Stellar network...");
+      const txHash = await submitTransaction(signedXdr);
 
       const { data } = await api.post("/plans", {
         ...form,
@@ -36,10 +44,11 @@ export default function PlanNew() {
         tokenContractId: import.meta.env.VITE_TOKEN_CONTRACT_ID || "PENDING_DEPLOYMENT",
         contractPlanId,
       });
-      toast.success("Plan created — fund it to activate.");
+      toast.success("Plan created on-chain! You can now fund it.");
       navigate(`/plans/${data.plan._id}`);
     } catch (err: any) {
-      toast.error(err?.response?.data?.error ?? "Could not create plan");
+      console.error(err);
+      toast.error(err?.message || err?.response?.data?.error || "Could not create plan");
     } finally {
       setSubmitting(false);
     }
