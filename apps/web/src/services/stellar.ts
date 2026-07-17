@@ -22,7 +22,8 @@ export async function submitTransaction(signedXdr: string) {
   const tx = TransactionBuilder.fromXDR(signedXdr, NETWORK_PASSPHRASE);
   const sendResult = await sorobanServer.sendTransaction(tx);
   if (sendResult.status === "ERROR") {
-    throw new Error("Transaction submission failed");
+    console.error("sendTransaction errorResultXdr:", (sendResult as any).errorResultXdr);
+    throw new Error(`Transaction submission failed: ${JSON.stringify(sendResult)}`);
   }
   return pollTransaction(sendResult.hash);
 }
