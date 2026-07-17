@@ -16,6 +16,7 @@ const remittancePlanSchema = new Schema(
     tokenContractId: { type: String, required: true },
     contractPlanId: { type: String, required: true },
     status: { type: String, enum: ["draft", "active", "completed", "cancelled"], default: "draft" },
+    creationTxHash: { type: String },
     fundingTxHash: { type: String },
   },
   { timestamps: true }

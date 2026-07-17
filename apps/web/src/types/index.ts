@@ -27,6 +27,8 @@ export interface RemittancePlan {
   releasedAmount: string;
   remainingAmount: string;
   status: PlanStatus;
+  creationTxHash?: string;
+  fundingTxHash?: string;
   createdAt: string;
 }
 
@@ -38,7 +40,10 @@ export interface Allocation {
   title: string;
   amount: string;
   status: AllocationStatus;
+  creationTxHash?: string;
+  requestTxHash?: string;
   approvalTxHash?: string;
   claimTxHash?: string;
+  cancelTxHash?: string;
   createdAt: string;
 }

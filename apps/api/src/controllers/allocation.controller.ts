@@ -16,7 +16,7 @@ export async function createAllocation(req: Request, res: Response) {
     throw new ApiError(400, "Allocation exceeds available funded balance");
   }
 
-  const allocation = await Allocation.create({ ...req.body, planId: plan.id, status: "created" });
+  const allocation = await Allocation.create({ ...req.body, planId: plan.id, status: "created", creationTxHash: req.body.txHash });
   res.status(201).json({ allocation });
 }
 
@@ -29,7 +29,7 @@ export async function requestRelease(req: Request, res: Response) {
   const { requestNote, proofUrl, txHash } = req.body;
   const allocation = await Allocation.findOneAndUpdate(
     { allocationId: req.params.id, status: "created" },
-    { status: "requested", requestNote, proofUrl },
+    { status: "requested", requestNote, proofUrl, requestTxHash: txHash },
     { new: true }
   );
   if (!allocation) throw new ApiError(409, "Allocation is not in a requestable state");
@@ -75,9 +75,10 @@ export async function claimAllocation(req: Request, res: Response) {
 }
 
 export async function cancelAllocation(req: Request, res: Response) {
+  const { txHash } = req.body;
   const allocation = await Allocation.findOneAndUpdate(
     { allocationId: req.params.id, status: { $nin: ["claimed", "cancelled"] } },
-    { status: "cancelled" },
+    { status: "cancelled", cancelTxHash: txHash },
     { new: true }
   );
   if (!allocation) throw new ApiError(409, "Allocation cannot be cancelled");

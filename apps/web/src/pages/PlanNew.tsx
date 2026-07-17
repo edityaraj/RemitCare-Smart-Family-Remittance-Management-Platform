@@ -43,6 +43,7 @@ export default function PlanNew() {
         senderWallet: address,
         tokenContractId: import.meta.env.VITE_TOKEN_CONTRACT_ID || "PENDING_DEPLOYMENT",
         contractPlanId,
+        creationTxHash: txHash,
       });
       toast.success("Plan created on-chain! You can now fund it.");
       navigate(`/plans/${data.plan._id}`);

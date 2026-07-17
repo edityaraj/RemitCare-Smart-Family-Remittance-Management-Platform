@@ -23,6 +23,9 @@ const allocationSchema = new Schema(
     proofUrl: { type: String },
     approvalTxHash: { type: String },
     claimTxHash: { type: String },
+    creationTxHash: { type: String },
+    requestTxHash: { type: String },
+    cancelTxHash: { type: String },
   },
   { timestamps: { createdAt: true, updatedAt: false } }
 );

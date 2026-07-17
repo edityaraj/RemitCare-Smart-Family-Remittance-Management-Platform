@@ -98,6 +98,21 @@ export default function PlanDetail() {
         <div>
           <h1 className="text-2xl font-semibold text-navy">{plan.title}</h1>
           {plan.description && <p className="mt-1 text-slate-500">{plan.description}</p>}
+          
+          {(plan.creationTxHash || plan.fundingTxHash) && (
+            <div className="mt-3 flex gap-4 text-xs font-medium text-blue-500">
+              {plan.creationTxHash && (
+                <a href={`https://stellar.expert/explorer/testnet/tx/${plan.creationTxHash}`} target="_blank" rel="noreferrer" className="hover:underline">
+                  View Creation Tx ↗
+                </a>
+              )}
+              {plan.fundingTxHash && (
+                <a href={`https://stellar.expert/explorer/testnet/tx/${plan.fundingTxHash}`} target="_blank" rel="noreferrer" className="hover:underline">
+                  View Funding Tx ↗
+                </a>
+              )}
+            </div>
+          )}
         </div>
         <div className="flex items-center gap-4">
           {plan.status === "draft" && (
