@@ -55,19 +55,19 @@ contracts/  Soroban (Rust) — smart contract managing escrow and release logic
 
 Below are some example transactions that prove the core smart contract interactions execute correctly on the Stellar Testnet:
 
-- **Plan Creation & Funding Transaction**: [be9266a6d7df7af935170df2c1d586fb6c484aa01328aadb58ef3973fbea3411](https://stellar.expert/explorer/testnet/tx/be9266a6d7df7af935170df2c1d586fb6c484aa01328aadb58ef3973fbea3411)
-- **Allocation Approval Transaction**: [e304423a4f604f05eb1deaee6bb7389825033c1bb46c70146f5f33ba2cdbdbab](https://stellar.expert/explorer/testnet/tx/e304423a4f604f05eb1deaee6bb7389825033c1bb46c70146f5f33ba2cdbdbab)
-- **Allocation Claim (Transfer) Transaction**: [24cae0bf3fd6c87bccdb14253d9763569f22a50e72e6e93ebfed4515206125cc](https://stellar.expert/explorer/testnet/tx/24cae0bf3fd6c87bccdb14253d9763569f22a50e72e6e93ebfed4515206125cc)
-
-### Additional User Testing Transactions
-- **Plan Creation: Monthly Family Support** (Receiver: GAE26B...): [0ee133e0ef9f2979cc65ea6a8202fd63a9a99b44c596992eb0fb1f1dfaf802e2](https://stellar.expert/explorer/testnet/tx/0ee133e0ef9f2979cc65ea6a8202fd63a9a99b44c596992eb0fb1f1dfaf802e2)
-- **Plan Creation: Emergency Medical Fund** (Receiver: GBDFRE...): [f01eef36a5ffbdd16fac28d9007115bc148c2ff68bc78ba718bbaea04b5b55b6](https://stellar.expert/explorer/testnet/tx/f01eef36a5ffbdd16fac28d9007115bc148c2ff68bc78ba718bbaea04b5b55b6)
-- **Plan Creation: College Tuition & Rent** (Receiver: GC5ODP...): [9f6bc73a9e50c987f0e4fdaac9d0ca2950f5928ac46384d3d39c8e34219be4ea](https://stellar.expert/explorer/testnet/tx/9f6bc73a9e50c987f0e4fdaac9d0ca2950f5928ac46384d3d39c8e34219be4ea)
-- **Plan Creation: Housing Renovation Support** (Receiver: GBC2IH...): [14ba649273e2e5b2ace14712408c1a3eae86f24009b9adc215842ae934274dd5](https://stellar.expert/explorer/testnet/tx/14ba649273e2e5b2ace14712408c1a3eae86f24009b9adc215842ae934274dd5)
-- **Plan Creation: Grandparents Care Fund** (Receiver: GBKUPF...): [948efcecf9242ba3709615b491ff06b3ec3064a16d1aa48efc0c89410b8d92b7](https://stellar.expert/explorer/testnet/tx/948efcecf9242ba3709615b491ff06b3ec3064a16d1aa48efc0c89410b8d92b7)
-- **Plan Creation: Startup Seed Capital** (Receiver: GB2CQ7...): [61f552ee010f982bcf1b5fde9e1cd377c3690ca910d1d7b0c58e8b96c5c2788e](https://stellar.expert/explorer/testnet/tx/61f552ee010f982bcf1b5fde9e1cd377c3690ca910d1d7b0c58e8b96c5c2788e)
-- **Plan Creation: Community Charity Drive** (Receiver: GDTSYQ...): [1f3eae8b94c846370ed394d46b09735f46714cb461a9955e55472edd8747bba5](https://stellar.expert/explorer/testnet/tx/1f3eae8b94c846370ed394d46b09735f46714cb461a9955e55472edd8747bba5)
-- **Plan Creation: Quarterly Allowance** (Receiver: GCWLSQ...): [01e50fcb36236d6f2243f07ce1c3a2deb819524b8bb17c66bf4d9d84fa5fd906](https://stellar.expert/explorer/testnet/tx/01e50fcb36236d6f2243f07ce1c3a2deb819524b8bb17c66bf4d9d84fa5fd906)
+| Action / Description | Receiver Wallet | Stellar.Expert Link |
+|---|---|---|
+| **Plan Creation & Funding** | `GCEEVR...` | [be9266a...](https://stellar.expert/explorer/testnet/tx/be9266a6d7df7af935170df2c1d586fb6c484aa01328aadb58ef3973fbea3411) |
+| **Allocation Approval** | `GCEEVR...` | [e304423...](https://stellar.expert/explorer/testnet/tx/e304423a4f604f05eb1deaee6bb7389825033c1bb46c70146f5f33ba2cdbdbab) |
+| **Allocation Claim (Transfer)** | `GCC3M4...` | [24cae0b...](https://stellar.expert/explorer/testnet/tx/24cae0bf3fd6c87bccdb14253d9763569f22a50e72e6e93ebfed4515206125cc) |
+| **Plan Creation: Monthly Family Support** | `GAE26B...` | [0ee133e...](https://stellar.expert/explorer/testnet/tx/0ee133e0ef9f2979cc65ea6a8202fd63a9a99b44c596992eb0fb1f1dfaf802e2) |
+| **Plan Creation: Emergency Medical Fund** | `GBDFRE...` | [f01eef3...](https://stellar.expert/explorer/testnet/tx/f01eef36a5ffbdd16fac28d9007115bc148c2ff68bc78ba718bbaea04b5b55b6) |
+| **Plan Creation: College Tuition & Rent** | `GC5ODP...` | [9f6bc73...](https://stellar.expert/explorer/testnet/tx/9f6bc73a9e50c987f0e4fdaac9d0ca2950f5928ac46384d3d39c8e34219be4ea) |
+| **Plan Creation: Housing Renovation** | `GBC2IH...` | [14ba649...](https://stellar.expert/explorer/testnet/tx/14ba649273e2e5b2ace14712408c1a3eae86f24009b9adc215842ae934274dd5) |
+| **Plan Creation: Grandparents Care Fund** | `GBKUPF...` | [948efce...](https://stellar.expert/explorer/testnet/tx/948efcecf9242ba3709615b491ff06b3ec3064a16d1aa48efc0c89410b8d92b7) |
+| **Plan Creation: Startup Seed Capital** | `GB2CQ7...` | [61f552e...](https://stellar.expert/explorer/testnet/tx/61f552ee010f982bcf1b5fde9e1cd377c3690ca910d1d7b0c58e8b96c5c2788e) |
+| **Plan Creation: Community Charity Drive** | `GDTSYQ...` | [1f3eae8...](https://stellar.expert/explorer/testnet/tx/1f3eae8b94c846370ed394d46b09735f46714cb461a9955e55472edd8747bba5) |
+| **Plan Creation: Quarterly Allowance** | `GCWLSQ...` | [01e50fc...](https://stellar.expert/explorer/testnet/tx/01e50fcb36236d6f2243f07ce1c3a2deb819524b8bb17c66bf4d9d84fa5fd906) |
 
 ## Users Onboarded
 
