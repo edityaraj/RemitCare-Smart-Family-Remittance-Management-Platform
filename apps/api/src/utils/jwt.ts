@@ -4,7 +4,7 @@ import { env } from "../config/env.js";
 export type JwtPayload = { userId: string; role: "sender" | "receiver" | "admin" };
 
 export function signAccessToken(payload: JwtPayload): string {
-  return jwt.sign(payload, env.JWT_ACCESS_SECRET, { expiresIn: "15m" });
+  return jwt.sign(payload, env.JWT_ACCESS_SECRET, { expiresIn: "7d" });
 }
 
 export function signRefreshToken(payload: JwtPayload): string {
