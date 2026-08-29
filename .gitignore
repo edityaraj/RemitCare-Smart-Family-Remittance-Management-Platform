@@ -11,3 +11,4 @@ Cargo.lock
 coverage/
 scripts/
 scratch/
+node_modules

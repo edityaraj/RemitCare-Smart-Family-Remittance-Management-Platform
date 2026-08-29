@@ -5,7 +5,7 @@
 ## 🚀 Quick Links
 - **Live Platform**: [remitcare-smart-family-remittance.vercel.app](https://remit-care-smart-family-remittance.vercel.app/)
 - **Demo Video**: [Watch the Demo](https://drive.google.com/file/d/1Y_IA_L6ZcyrCzntQRkhYRoLt0jxfRtUG/view?usp=sharing)
-- **Contract Deployment Address**: `CDAPWBOKK5BUOIQB3NH5RHEOGBP3OQ66YCDNYGD7Q3EO3XBESX7HS7NH`
+- **Contract Deployment Address**: `CA42Y2ZWI4HCY7K6NJ3YOLNIHXIFSIUQ724JE6D2PDA343TFYGZTZDOC`
 - **User Feedback Form**: [RemitCare Feedback Form](https://docs.google.com/forms/d/e/1FAIpQLScxkEG89cF7WqdQTtMGkUBqdyrOFr3b9Cdtlfn4WpFFpLuKKw/viewform?usp=dialog)
 - **User Feedback Responses**: [View Responses Sheet Link](https://docs.google.com/spreadsheets/d/17HabwjVxjWOfcZUNzgUtpRCiCdvoHrOlCXG3JrfSJMc/edit?usp=sharing)
 
