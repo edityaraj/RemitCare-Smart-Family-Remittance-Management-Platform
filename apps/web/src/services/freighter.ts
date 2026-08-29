@@ -4,10 +4,9 @@ import {
   FREIGHTER_ID,
   FreighterModule,
 } from "@creit.tech/stellar-wallets-kit";
-import freighterApi from "@stellar/freighter-api";
 import { Networks } from "@stellar/stellar-sdk";
 
-// Only load Freighter — no MetaMask/Binance/WalletConnect broadcast errors
+// Only load Freighter — avoids MetaMask/Binance broadcast channel errors
 export const kit = new StellarWalletsKit({
   network: WalletNetwork.TESTNET,
   selectedWalletId: FREIGHTER_ID,
@@ -21,9 +20,9 @@ export class FreighterNotInstalledError extends Error {
 }
 
 export class WrongNetworkError extends Error {
-  constructor() {
+  constructor(actual: string) {
     super(
-      "Your Freighter wallet is on the WRONG network!\n\nPlease open Freighter, click the network name at the top, and switch to 'Test SDF Network' (Testnet). Then try again."
+      `Your Freighter wallet is on: "${actual}".\n\nPlease open Freighter → click network name → switch to "Test SDF Network" (Testnet). Then try again.`
     );
   }
 }
@@ -38,34 +37,38 @@ export async function connectWallet(): Promise<string> {
 }
 
 export async function signXdr(xdr: string, networkPassphrase: string): Promise<string> {
-  // Verify Freighter is on the right network before we even try signing
+  // Talk directly to the Freighter browser extension via window.freighter
+  // This bypasses @stellar/freighter-api package which MetaMask can intercept
+  const freighter = (window as any).freighter;
+
+  if (!freighter) {
+    throw new FreighterNotInstalledError();
+  }
+
+  // Check network first
   try {
-    const currentNetwork = await freighterApi.getNetwork();
-    // getNetwork() returns a string like "TESTNET" or the passphrase
-    if (
-      currentNetwork &&
-      currentNetwork !== "TESTNET" &&
-      currentNetwork !== Networks.TESTNET
-    ) {
-      throw new WrongNetworkError();
+    const networkInfo = await freighter.getNetworkDetails();
+    const walletPassphrase: string = networkInfo?.networkPassphrase ?? networkInfo?.network ?? "";
+    if (walletPassphrase && walletPassphrase !== Networks.TESTNET) {
+      throw new WrongNetworkError(walletPassphrase);
     }
   } catch (e: any) {
     if (e instanceof WrongNetworkError) throw e;
-    // Otherwise Freighter API threw (not connected, etc.) — proceed optimistically
+    // getNetworkDetails failed — proceed optimistically
   }
 
-  // Use @stellar/freighter-api directly for signing — full control, no noise
-  const { address } = await kit.getAddress();
-  const signedTxXdr = await freighterApi.signTransaction(xdr, {
+  // Sign the transaction directly via the extension
+  const { publicKey } = await freighter.requestAccess();
+  const result = await freighter.signTransaction(xdr, {
     networkPassphrase,
-    accountToSign: address,
+    accountToSign: publicKey,
   });
 
-  if (!signedTxXdr) {
-    throw new Error("Signing was cancelled or failed in Freighter.");
+  if (result.error) {
+    throw new Error(result.error);
   }
 
-  return signedTxXdr;
+  return result.signedTransaction ?? result;
 }
 
 export function shortenAddress(address: string) {
