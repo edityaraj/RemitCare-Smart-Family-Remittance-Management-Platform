@@ -4,7 +4,7 @@ import {
   FREIGHTER_ID,
   FreighterModule,
 } from "@creit.tech/stellar-wallets-kit";
-import { Networks } from "@stellar/stellar-sdk";
+import { Networks, TransactionBuilder, Transaction } from "@stellar/stellar-sdk";
 import { getNetworkDetails, requestAccess, signTransaction } from "@stellar/freighter-api";
 
 // Only load Freighter — avoids MetaMask/Binance broadcast channel errors
@@ -50,11 +50,28 @@ export async function signXdr(xdr: string, networkPassphrase: string): Promise<s
     // getNetworkDetails failed — proceed optimistically
   }
 
-  // stellar-wallets-kit handles signing Soroban auth entries properly
-  // We pass address to ensure Freighter signs for the exactly correct address
-  const { address: accountToSign } = await kit.getAddress();
-  const result = await kit.signTransaction(xdr, { networkPassphrase, address: accountToSign });
-  return result.signedTxXdr;
+  // Get the ACTIVE account in Freighter
+  const activeKey = await requestAccess();
+  if (!activeKey) throw new FreighterNotInstalledError();
+
+  // Extract source account from XDR to ensure it matches Freighter's active account.
+  // Mismatches are the #1 cause of txBadAuth (-6).
+  const tx = TransactionBuilder.fromXDR(xdr, networkPassphrase) as Transaction;
+  if (tx.source !== activeKey) {
+    throw new Error(`Account mismatch! Please open Freighter and switch to account ${shortenAddress(tx.source)} to sign.`);
+  }
+
+  // Use freighter-api directly because it natively handles Soroban auth entries
+  const result: any = await signTransaction(xdr, {
+    networkPassphrase,
+    accountToSign: activeKey,
+  });
+
+  if (result.error) {
+    throw new Error(result.error);
+  }
+
+  return result.signedTransaction ?? result.signedTxXdr ?? result;
 }
 
 export function shortenAddress(address: string) {
