@@ -25,7 +25,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <AuthProvider>
           <WalletProvider>
             <App />
-            <Toaster richColors position="top-right" />
+            <Toaster richColors position="top-right" theme="system" />
           </WalletProvider>
         </AuthProvider>
       </QueryClientProvider>
