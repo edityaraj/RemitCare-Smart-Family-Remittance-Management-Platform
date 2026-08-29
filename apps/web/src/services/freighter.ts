@@ -51,9 +51,9 @@ export async function signXdr(xdr: string, networkPassphrase: string): Promise<s
   }
 
   // stellar-wallets-kit handles signing Soroban auth entries properly
-  // We pass accountToSign to ensure Freighter signs for the exactly correct address
+  // We pass address to ensure Freighter signs for the exactly correct address
   const { address: accountToSign } = await kit.getAddress();
-  const result = await kit.signTransaction(xdr, { networkPassphrase, accountToSign: accountToSign as any });
+  const result = await kit.signTransaction(xdr, { networkPassphrase, address: accountToSign });
   return result.signedTxXdr;
 }
 
