@@ -50,18 +50,9 @@ export async function signXdr(xdr: string, networkPassphrase: string): Promise<s
     // getNetworkDetails failed — proceed optimistically
   }
 
-  // Sign the transaction directly via the extension API
-  const { address: publicKey } = await kit.getAddress();
-  const result: any = await signTransaction(xdr, {
-    networkPassphrase,
-    accountToSign: publicKey,
-  });
-
-  if (result.error) {
-    throw new Error(result.error);
-  }
-
-  return result.signedTransaction ?? result.signedTxXdr ?? result;
+  // stellar-wallets-kit handles signing Soroban auth entries properly
+  const result = await kit.signTransaction(xdr, { networkPassphrase });
+  return result.signedTxXdr;
 }
 
 export function shortenAddress(address: string) {

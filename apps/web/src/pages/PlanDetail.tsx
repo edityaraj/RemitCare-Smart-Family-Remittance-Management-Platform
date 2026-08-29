@@ -92,14 +92,14 @@ export default function PlanDetail() {
     }
   }
 
-  if (!plan) return <div className="mx-auto max-w-4xl px-4 py-10 text-sm text-slate-400">Loading plan…</div>;
+  if (!plan) return <div className="mx-auto max-w-4xl px-4 py-10 text-sm text-slate-400 dark:text-slate-400">Loading plan…</div>;
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-10">
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-navy">{plan.title}</h1>
-          {plan.description && <p className="mt-1 text-slate-500">{plan.description}</p>}
+          <h1 className="text-2xl font-semibold text-navy dark:text-white">{plan.title}</h1>
+          {plan.description && <p className="mt-1 text-slate-500 dark:text-slate-300">{plan.description}</p>}
           
           {(plan.creationTxHash || plan.fundingTxHash) && (
             <div className="mt-3 flex gap-4 text-xs font-medium text-blue-500">
@@ -130,22 +130,22 @@ export default function PlanDetail() {
       </div>
 
       <div className="mt-6 grid grid-cols-3 gap-4">
-        <div className="rounded-lg border border-slate-200 bg-white p-4">
-          <p className="text-xs text-slate-400">Funded</p>
-          <p className="text-lg font-semibold text-navy">{plan.fundedAmount}</p>
+        <div className="rounded-lg border border-slate-200 bg-white dark:bg-slate-800 p-4">
+          <p className="text-xs text-slate-400 dark:text-slate-400">Funded</p>
+          <p className="text-lg font-semibold text-navy dark:text-white">{plan.fundedAmount}</p>
         </div>
-        <div className="rounded-lg border border-slate-200 bg-white p-4">
-          <p className="text-xs text-slate-400">Released</p>
-          <p className="text-lg font-semibold text-navy">{plan.releasedAmount}</p>
+        <div className="rounded-lg border border-slate-200 bg-white dark:bg-slate-800 p-4">
+          <p className="text-xs text-slate-400 dark:text-slate-400">Released</p>
+          <p className="text-lg font-semibold text-navy dark:text-white">{plan.releasedAmount}</p>
         </div>
-        <div className="rounded-lg border border-slate-200 bg-white p-4">
-          <p className="text-xs text-slate-400">Remaining</p>
-          <p className="text-lg font-semibold text-navy">{plan.remainingAmount}</p>
+        <div className="rounded-lg border border-slate-200 bg-white dark:bg-slate-800 p-4">
+          <p className="text-xs text-slate-400 dark:text-slate-400">Remaining</p>
+          <p className="text-lg font-semibold text-navy dark:text-white">{plan.remainingAmount}</p>
         </div>
       </div>
 
       <div className="mt-8 flex items-center justify-between">
-        <h2 className="text-lg font-medium text-navy">Allocations</h2>
+        <h2 className="text-lg font-medium text-navy dark:text-white">Allocations</h2>
         <button
           onClick={() => setShowNewAllocation((v) => !v)}
           className="text-sm font-medium text-emerald-600 hover:underline"
@@ -157,7 +157,7 @@ export default function PlanDetail() {
       {showNewAllocation && <NewAllocationForm plan={plan!} onCreated={() => qc.invalidateQueries({ queryKey: ["allocations", id] })} />}
 
       {isLoading ? (
-        <p className="mt-4 text-sm text-slate-400">Loading allocations…</p>
+        <p className="mt-4 text-sm text-slate-400 dark:text-slate-400">Loading allocations…</p>
       ) : (
         <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
           {(allocations ?? []).map((a) => (
@@ -205,7 +205,7 @@ function NewAllocationForm({ plan, onCreated }: { plan: RemittancePlan; onCreate
   }
 
   return (
-    <form onSubmit={onSubmit} className="mt-4 flex flex-wrap items-end gap-3 rounded-lg border border-slate-200 bg-white p-4">
+    <form onSubmit={onSubmit} className="mt-4 flex flex-wrap items-end gap-3 rounded-lg border border-slate-200 bg-white dark:bg-slate-800 p-4">
       <select
         value={form.purpose}
         onChange={(e) => setForm({ ...form, purpose: e.target.value })}
