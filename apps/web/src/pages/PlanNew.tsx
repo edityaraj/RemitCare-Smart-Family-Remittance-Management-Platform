@@ -32,8 +32,7 @@ export default function PlanNew() {
       toast.info("Generating contract transaction...");
       const xdr = await buildCreatePlanTx(contractPlanId, address, form.receiverWallet, address);
       
-      toast.info("Please sign the transaction in Freighter...");
-      const signedXdr = await signXdr(xdr, NETWORK_PASSPHRASE);
+      const signedXdr = await signXdr(xdr);
       
       toast.info("Submitting transaction to Stellar network...");
       const txHash = await submitTransaction(signedXdr);
