@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import { ShieldCheck, GraduationCap, HeartPulse, Home as HomeIcon, Wallet2 } from "lucide-react";
 
+import { useAuth } from "@/hooks/useAuth";
+
 const PURPOSES = [
   { icon: GraduationCap, label: "Education" },
   { icon: HeartPulse, label: "Healthcare" },
@@ -9,6 +11,7 @@ const PURPOSES = [
 ];
 
 export default function Landing() {
+  const { user } = useAuth();
   return (
     <div>
       <section className="mx-auto max-w-6xl px-4 py-20 text-center">
@@ -20,9 +23,15 @@ export default function Landing() {
           with full transparency for both sides.
         </p>
         <div className="mt-8 flex justify-center gap-3">
-          <Link to="/register" className="rounded-md bg-navy px-5 py-3 text-sm font-medium text-white hover:bg-navy/90">
-            Get started
-          </Link>
+          {user ? (
+            <Link to={`/${user.role}/dashboard`} className="rounded-md bg-navy px-5 py-3 text-sm font-medium text-white hover:bg-navy/90">
+              Go to Dashboard
+            </Link>
+          ) : (
+            <Link to="/register" className="rounded-md bg-navy px-5 py-3 text-sm font-medium text-white hover:bg-navy/90">
+              Get started
+            </Link>
+          )}
           <Link to="/how-it-works" className="rounded-md border border-slate-300 px-5 py-3 text-sm font-medium text-navy hover:bg-slate-100">
             How it works
           </Link>
