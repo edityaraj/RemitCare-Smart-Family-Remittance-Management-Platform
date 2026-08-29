@@ -5,6 +5,7 @@ import {
   FreighterModule,
 } from "@creit.tech/stellar-wallets-kit";
 import { Networks } from "@stellar/stellar-sdk";
+import { getNetworkDetails, requestAccess, signTransaction } from "@stellar/freighter-api";
 
 // Only load Freighter — avoids MetaMask/Binance broadcast channel errors
 export const kit = new StellarWalletsKit({
@@ -37,17 +38,9 @@ export async function connectWallet(): Promise<string> {
 }
 
 export async function signXdr(xdr: string, networkPassphrase: string): Promise<string> {
-  // Talk directly to the Freighter browser extension via window.freighter
-  // This bypasses @stellar/freighter-api package which MetaMask can intercept
-  const freighter = (window as any).freighter;
-
-  if (!freighter) {
-    throw new FreighterNotInstalledError();
-  }
-
   // Check network first
   try {
-    const networkInfo = await freighter.getNetworkDetails();
+    const networkInfo = await getNetworkDetails();
     const walletPassphrase: string = networkInfo?.networkPassphrase ?? networkInfo?.network ?? "";
     if (walletPassphrase && walletPassphrase !== Networks.TESTNET) {
       throw new WrongNetworkError(walletPassphrase);
@@ -57,9 +50,9 @@ export async function signXdr(xdr: string, networkPassphrase: string): Promise<s
     // getNetworkDetails failed — proceed optimistically
   }
 
-  // Sign the transaction directly via the extension
-  const { publicKey } = await freighter.requestAccess();
-  const result = await freighter.signTransaction(xdr, {
+  // Sign the transaction directly via the extension API
+  const { address: publicKey } = await kit.getAddress();
+  const result: any = await signTransaction(xdr, {
     networkPassphrase,
     accountToSign: publicKey,
   });
@@ -68,7 +61,7 @@ export async function signXdr(xdr: string, networkPassphrase: string): Promise<s
     throw new Error(result.error);
   }
 
-  return result.signedTransaction ?? result;
+  return result.signedTransaction ?? result.signedTxXdr ?? result;
 }
 
 export function shortenAddress(address: string) {
