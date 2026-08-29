@@ -5,7 +5,7 @@ import { api } from "@/services/api";
 import { useWallet } from "@/hooks/useWallet";
 import { buildCreatePlanTx } from "@/services/contract";
 import { signXdr } from "@/services/freighter";
-import { submitTransaction } from "@/services/stellar";
+import { submitTransaction, NETWORK_PASSPHRASE } from "@/services/stellar";
 
 // Flow (Phase 10): validate form -> generate plan id -> create_plan() on
 // contract -> sign with Freighter -> wait for confirmation -> fund_plan() ->
@@ -33,7 +33,7 @@ export default function PlanNew() {
       const xdr = await buildCreatePlanTx(contractPlanId, address, form.receiverWallet, address);
       
       toast.info("Please sign the transaction in Freighter...");
-      const signedXdr = await signXdr(xdr, import.meta.env.VITE_STELLAR_NETWORK_PASSPHRASE || "Test SDF Network ; September 2015");
+      const signedXdr = await signXdr(xdr, NETWORK_PASSPHRASE);
       
       toast.info("Submitting transaction to Stellar network...");
       const txHash = await submitTransaction(signedXdr);
@@ -57,27 +57,27 @@ export default function PlanNew() {
 
   return (
     <div className="mx-auto max-w-lg px-4 py-10">
-      <h1 className="text-2xl font-semibold text-navy">Create a remittance plan</h1>
+      <h1 className="text-2xl font-semibold text-navy dark:text-white">Create a remittance plan</h1>
       <form onSubmit={onSubmit} className="mt-6 space-y-4">
         <input
           required
           placeholder="Receiver Stellar wallet address (G...)"
           value={form.receiverWallet}
           onChange={(e) => setForm({ ...form, receiverWallet: e.target.value })}
-          className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
+          className="w-full rounded-md border border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-white px-3 py-2 text-sm"
         />
         <input
           required
           placeholder="Plan title (e.g. Priya's monthly support)"
           value={form.title}
           onChange={(e) => setForm({ ...form, title: e.target.value })}
-          className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
+          className="w-full rounded-md border border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-white px-3 py-2 text-sm"
         />
         <textarea
           placeholder="Description (optional)"
           value={form.description}
           onChange={(e) => setForm({ ...form, description: e.target.value })}
-          className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
+          className="w-full rounded-md border border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-white px-3 py-2 text-sm"
         />
         <input
           required
@@ -87,11 +87,11 @@ export default function PlanNew() {
           placeholder="Total amount (tokens)"
           value={form.totalAmount}
           onChange={(e) => setForm({ ...form, totalAmount: e.target.value })}
-          className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
+          className="w-full rounded-md border border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-white px-3 py-2 text-sm"
         />
         <button
           disabled={submitting}
-          className="w-full rounded-md bg-navy px-4 py-2 text-sm font-medium text-white hover:bg-navy/90 disabled:opacity-60"
+          className="w-full rounded-md bg-navy dark:bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-navy/90 dark:hover:bg-emerald-500 disabled:opacity-60"
         >
           {submitting ? "Creating…" : "Create plan"}
         </button>
