@@ -32,11 +32,11 @@ export async function connectWallet(): Promise<string> {
   return address;
 }
 
-export async function signXdr(xdr: string) {
+export async function signXdr(xdr: string, networkPassphrase: string) {
   const { address } = await kit.getAddress();
   const { signedTxXdr } = await kit.signTransaction(xdr, {
-    network: WalletNetwork.TESTNET,
-    accountToSign: address,
+    address,
+    networkPassphrase,
   });
   return signedTxXdr;
 }
