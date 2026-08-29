@@ -33,6 +33,23 @@ export async function connectWallet(): Promise<string> {
 }
 
 export async function signXdr(xdr: string, networkPassphrase: string) {
+  // Verify the wallet is on the correct network before signing
+  try {
+    const { networkPassphrase: walletPassphrase } = await kit.getNetwork();
+    if (
+      walletPassphrase &&
+      walletPassphrase !== networkPassphrase
+    ) {
+      throw new Error(
+        `Your Freighter wallet is on the wrong network!\n\nPlease open Freighter and switch to Testnet, then try again.\n\nWallet network: ${walletPassphrase}`
+      );
+    }
+  } catch (e: any) {
+    // If the error is our own, rethrow it
+    if (e.message?.includes("Freighter")) throw e;
+    // Otherwise it's a Freighter API error (wallet not connected etc), ignore and proceed
+  }
+
   const { address } = await kit.getAddress();
   const { signedTxXdr } = await kit.signTransaction(xdr, {
     address,

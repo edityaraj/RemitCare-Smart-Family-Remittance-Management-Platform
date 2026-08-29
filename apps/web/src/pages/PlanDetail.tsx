@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
+import { NETWORK_PASSPHRASE } from "@/services/stellar";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { api } from "@/services/api";
@@ -46,7 +47,7 @@ export default function PlanDetail() {
       else xdr = await buildCancelAllocationTx(allocation.allocationId, address);
 
       toast.info("Please sign the transaction...");
-      const signedXdr = await signXdr(xdr, "Test SDF Network ; September 2015");
+      const signedXdr = await signXdr(xdr, NETWORK_PASSPHRASE);
       
       toast.info("Submitting transaction to Stellar network...");
       const txHash = await submitTransaction(signedXdr);
@@ -77,7 +78,7 @@ export default function PlanDetail() {
       const xdr = await buildFundPlanTx(plan!.contractPlanId, plan!.totalAmount, address);
       
       toast.info("Please sign the transaction in Freighter...");
-      const signedXdr = await signXdr(xdr, "Test SDF Network ; September 2015");
+      const signedXdr = await signXdr(xdr, NETWORK_PASSPHRASE);
       
       toast.info("Submitting transaction to Stellar network...");
       const txHash = await submitTransaction(signedXdr);
@@ -183,7 +184,7 @@ function NewAllocationForm({ plan, onCreated }: { plan: RemittancePlan; onCreate
       const xdr = await buildCreateAllocationTx(plan.contractPlanId, allocationId, form.purpose, form.amount, address);
       
       toast.info("Please sign the transaction...");
-      const signedXdr = await signXdr(xdr, "Test SDF Network ; September 2015");
+      const signedXdr = await signXdr(xdr, NETWORK_PASSPHRASE);
       
       toast.info("Submitting to Stellar network...");
       const txHash = await submitTransaction(signedXdr);
