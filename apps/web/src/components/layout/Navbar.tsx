@@ -35,7 +35,7 @@ export default function Navbar() {
               <WalletConnectButton />
               <Link
                 to={`/${user.role}/dashboard`}
-                className="rounded-md px-3 py-1.5 text-sm font-medium text-navy hover:bg-slate-100"
+                className="rounded-md px-3 py-1.5 text-sm font-medium text-navy hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
               >
                 Dashboard
               </Link>
@@ -44,14 +44,14 @@ export default function Navbar() {
                   await logout();
                   navigate("/login");
                 }}
-                className="flex items-center gap-1 rounded-md px-3 py-1.5 text-sm text-slate-500 hover:bg-slate-100"
+                className="flex items-center gap-1 rounded-md px-3 py-1.5 text-sm text-slate-500 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
               >
                 <LogOut className="h-4 w-4" /> Log out
               </button>
             </>
           ) : (
             <>
-              <Link to="/login" className="rounded-md px-3 py-1.5 text-sm font-medium text-navy hover:bg-slate-100">
+              <Link to="/login" className="rounded-md px-3 py-1.5 text-sm font-medium text-navy hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800">
                 Log in
               </Link>
               <Link
