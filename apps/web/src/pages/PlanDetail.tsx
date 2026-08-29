@@ -146,12 +146,14 @@ export default function PlanDetail() {
 
       <div className="mt-8 flex items-center justify-between">
         <h2 className="text-lg font-medium text-navy dark:text-white">Allocations</h2>
-        <button
-          onClick={() => setShowNewAllocation((v) => !v)}
-          className="text-sm font-medium text-emerald-600 hover:underline"
-        >
-          {showNewAllocation ? "Close" : "+ Add allocation"}
-        </button>
+        {isSender && (
+          <button
+            onClick={() => setShowNewAllocation((v) => !v)}
+            className="text-sm font-medium text-emerald-600 hover:underline"
+          >
+            {showNewAllocation ? "Close" : "+ Add allocation"}
+          </button>
+        )}
       </div>
 
       {showNewAllocation && <NewAllocationForm plan={plan!} onCreated={() => qc.invalidateQueries({ queryKey: ["allocations", id] })} />}
