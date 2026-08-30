@@ -12,3 +12,7 @@ coverage/
 scripts/
 scratch/
 node_modules
+
+# Ignore CSV and scripts
+*.csv
+simulate.ps1
