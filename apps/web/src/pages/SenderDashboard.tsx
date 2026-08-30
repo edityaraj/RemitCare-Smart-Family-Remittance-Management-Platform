@@ -8,7 +8,7 @@ import type { RemittancePlan } from "@/types";
 
 export default function SenderDashboard() {
   const [filter, setFilter] = useState<"all" | "active" | "completed">("all");
-  const [showBanner, setShowBanner] = useState(true);
+  const [showTutorial, setShowTutorial] = useState(false);
 
   const { data, isLoading } = useQuery({
     queryKey: ["plans", "sender"],
@@ -26,31 +26,62 @@ export default function SenderDashboard() {
   });
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-10">
+    <div className="mx-auto max-w-6xl px-4 py-10 relative">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold text-navy">Sender dashboard</h1>
-        <Link to="/sender/plans/new" className="rounded-md bg-emerald px-4 py-2 text-sm font-medium text-white hover:bg-emerald-600">
+        <div className="flex items-center gap-3">
+          <h1 className="text-2xl font-semibold text-navy">Sender dashboard</h1>
+          <button 
+            onClick={() => setShowTutorial(true)}
+            className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-medium text-emerald-700 hover:bg-emerald-200"
+          >
+            How it works
+          </button>
+        </div>
+        <Link to="/sender/plans/new" className="rounded-md bg-emerald px-4 py-2 text-sm font-medium text-white hover:bg-emerald-600 transition-colors shadow-sm">
           + New plan
         </Link>
       </div>
 
-      {showBanner && (
-        <div className="mt-6 rounded-lg border border-emerald-200 bg-emerald-50 p-4">
-          <div className="flex items-start justify-between">
-            <div>
-              <h3 className="text-sm font-medium text-emerald-800">Welcome to RemitCare! 👋</h3>
-              <div className="mt-2 text-sm text-emerald-700">
-                <p>Getting started is simple:</p>
-                <ul className="ml-5 mt-1 list-disc space-y-1">
-                  <li>Click <strong>+ New plan</strong> to create a remittance budget (e.g. "College Tuition").</li>
-                  <li>Fund the plan using your Stellar wallet.</li>
-                  <li>Your receiver will request allocations, and you approve them right here!</li>
-                </ul>
+      {showTutorial && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4">
+          <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl relative animate-in fade-in zoom-in duration-200">
+            <button onClick={() => setShowTutorial(false)} className="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            
+            <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            </div>
+            
+            <h2 className="text-xl font-bold text-navy mb-2">Welcome to RemitCare</h2>
+            <p className="text-slate-500 text-sm mb-6">Follow these 3 simple steps to start supporting your family securely via the Stellar network.</p>
+            
+            <div className="space-y-4">
+              <div className="flex gap-3">
+                <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-100 text-xs font-bold text-slate-600">1</div>
+                <div>
+                  <h4 className="text-sm font-medium text-navy">Create a Plan</h4>
+                  <p className="text-xs text-slate-500">Click '+ New plan' and set a budget for specific needs like tuition or rent.</p>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-100 text-xs font-bold text-slate-600">2</div>
+                <div>
+                  <h4 className="text-sm font-medium text-navy">Fund via Wallet</h4>
+                  <p className="text-xs text-slate-500">Lock the funds securely into the smart contract using Freighter.</p>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-100 text-xs font-bold text-slate-600">3</div>
+                <div>
+                  <h4 className="text-sm font-medium text-navy">Approve Claims</h4>
+                  <p className="text-xs text-slate-500">Review requests from your receiver and release funds instantly with zero hidden fees.</p>
+                </div>
               </div>
             </div>
-            <button onClick={() => setShowBanner(false)} className="text-emerald-500 hover:text-emerald-700">
-              <span className="sr-only">Dismiss</span>
-              &times;
+            
+            <button onClick={() => setShowTutorial(false)} className="mt-8 w-full rounded-lg bg-emerald py-2.5 text-sm font-medium text-white hover:bg-emerald-600 transition-colors">
+              Got it, let's go!
             </button>
           </div>
         </div>
