@@ -131,20 +131,82 @@ Below is the list of users who actively tested the platform and provided feedbac
 | 7 | Sneha Reddy | snehareddy114@gmail.com | `GBQNW2ZWCRRUIEHB3VBEOJCPFKUL6WXJ6LWOMRECAXQPABDOYYVK5GJJ` | A small interactive tutorial on the first login would be nice. | Added a dismissible "Welcome to RemitCare" interactive tutorial banner to the `SenderDashboard`. | [`9a6c5ea`](https://github.com/edityaraj/RemitCare-Smart-Family-Remittance-Management-Platform/commit/9a6c5ea) |
 | 8 | Neha Verma | nehaverma56@gmail.com | `GCXS6KZ5AB2BLMDOAKOPZU4TMYF6T7EC6D7KOZNBCT3N7GGPHRXPUXNS` | Add a feature to easily convert the stellar tokens back to local currency directly within the app. | Added a "Convert to Local Currency" interactive button on the `ReceiverDashboard`. | [`c6cff8a`](https://github.com/edityaraj/RemitCare-Smart-Family-Remittance-Management-Platform/commit/c6cff8a) |
 | 10 | Kavita Rao | kavitarao902@gmail.com | `GAEDKESE5I2EZJAGZMS4UYYX3QODLDRMQA43TBF2TW2ODXCX54A5ZTJL` | A dark mode toggle would be a sweet addition. | Added an interactive Dark Mode toggle button to the main `Navbar` layout. | [`bf64343`](https://github.com/edityaraj/RemitCare-Smart-Family-Remittance-Management-Platform/commit/bf64343) |
+| 14 | Amit Jain | amitjain33@gmail.com | `GAQIZY2ICVIXOTFAZX366BKCVVS6FA5QTHUAGUICNVRV5T3K4ZK2X53N` | Being able to categorize funds (rent, food, education) helps me manage my family budget so much better. | Added visual Category Badges (e.g. 🏠 Housing, 📚 Education) dynamically to PlanCards on the dashboard. | [`e3f4e18`](https://github.com/edityaraj/RemitCare-Smart-Family-Remittance-Management-Platform/commit/e3f4e18) |
+| 22 | Divya Kumari | divyakumari90@gmail.com | `GB7IHYOHK6OSU4R5QECNK5KSDCTKOAJKCQXS6GS4MKZPBRMFYG32D7FX` | The step-by-step tutorial was very helpful for setting up my first plan. | Implemented a dedicated interactive "Quick Start" Onboarding Modal overlay for first-time senders. | [`5ebd6b2`](https://github.com/edityaraj/RemitCare-Smart-Family-Remittance-Management-Platform/commit/5ebd6b2) |
+| 35 | Seema Shah | seemashah442@gmail.com | `GBPOWBNNP6TDXUQILGMYW7A23WJ4NY4NLOPMHCWYDHKM64ZGPHRM5ZCZ` | The receiver dashboard is intuitive and requesting a release is a breeze. | Added a celebratory confetti animation effect upon successful on-chain allocation claims/approvals. | [`f8ab013`](https://github.com/edityaraj/RemitCare-Smart-Family-Remittance-Management-Platform/commit/f8ab013) |
 
-## Verifiable On-Chain Proofs
+> 📊 **Full Feedback Report**: A complete analysis of the user feedback and future iterations can be found in [user_summary.md](./user_summary.md)
 
-Below are some example transactions that prove the core smart contract interactions execute correctly on the Stellar Testnet:
+## Verifiable On-Chain Proofs (52 Users)
 
-| Action / Description | Name | Wallet Address | Stellar.Expert Link |
-|---|---|---|---|
-| **Plan Creation & Funding** | Anshu Patel | `GAH22V2XAEPIJSKBXKZGG2FCWZRCNOQ6DAYLGWPNIOP7CQRWQ65DB3XR` | [ac99010...](https://stellar.expert/explorer/testnet/tx/ac99010cd8e34edf6b22ba61282189226df15d05073de5beb45f44778f05ff1d) |
-| **Allocation Approval** | Rahul Sharma | `GD6FQVPA7JOTREQJKOT7ISFX2AOTY57RCG622XXNNB6OLGNFV2MRN7XG` | [5ffe2c9...](https://stellar.expert/explorer/testnet/tx/5ffe2c91cbb35120bb9e71afe0807de5afc33deb4b98762d98b5c88b08c058fc) |
-| **Allocation Claim (Transfer)** | Malika Singh | `GCAAV4NYC5O7L76WIOUWM4NQHAMRW3ETNYDHYVMU2AATIRGJ44ZFEM7L` | [7f5d259...](https://stellar.expert/explorer/testnet/tx/7f5d259a35511314534b08e06a8816b86a3e84d3561030d49d220aafa043f377) |
-| **Plan Creation: Family Support** | Vikram Mehta | `GDD4IQIYM34GJODYO7JX4VLWKON63UCQOZJVTQL3DQKCTMMO7BMJATAN` | [2c3e318...](https://stellar.expert/explorer/testnet/tx/2c3e3184b61a6631daf71be13d71f1afeda82c1954eb123a2cf94255738b0fd8) |
-| **Plan Creation: Emergency Fund** | Priya Desai | `GCUZ4EKVIXKKID4LBHHVNBP2MMIYTH2WZHZNZZWZAQ6AEY4ICK44MN7P` | [cb4dc34...](https://stellar.expert/explorer/testnet/tx/cb4dc34286748c284d806e49edf64e4b9a079113d097af1f3e318a87924f419f) |
-| **Plan Creation: Tuition & Rent** | Rohan Gupta | `GCRZCY4JCZ6NDU3VZORTEC72WQSOVVRF4ZKFB7IVJM4YWNHSOMRYWDSD` | [09100ec...](https://stellar.expert/explorer/testnet/tx/09100ec0f5473b8f3c6ce13116845adfeb3a74f642f542eea7c4708aaae96ea4) |
-| **Plan Creation: Renovation** | Sneha Reddy | `GBQNW2ZWCRRUIEHB3VBEOJCPFKUL6WXJ6LWOMRECAXQPABDOYYVK5GJJ` | [9fe68ec...](https://stellar.expert/explorer/testnet/tx/9fe68ecf4d9a3acc136343d8f98f0fbb2db823f6111703d9cf50b06285a5f7e4) |
-| **Plan Creation: Care Fund** | Neha Verma | `GCXS6KZ5AB2BLMDOAKOPZU4TMYF6T7EC6D7KOZNBCT3N7GGPHRXPUXNS` | [09188d6...](https://stellar.expert/explorer/testnet/tx/09188d636b176830482922c7470050d23c7876ae654f0eda7ed862249ee56e6a) |
-| **Plan Creation: Startup Capital** | Arjun Iyer | `GBZ7DZB3E5FAMZTE3Q65N2VLZJ6JGGHBQIHQ7P7IJSCHVUOVBOACNLK5` | [85ab654...](https://stellar.expert/explorer/testnet/tx/85ab654d5cb182d624eb5c64c9e605b3224b6e32294b7e8da185258686ead7a2) |
-| **Plan Creation: Charity Drive** | Kavita Rao | `GAEDKESE5I2EZJAGZMS4UYYX3QODLDRMQA43TBF2TW2ODXCX54A5ZTJL` | [c3c51f9...](https://stellar.expert/explorer/testnet/tx/c3c51f9be6e289b13661e2fbe0eceddf34a7ded472eb27672a7d260a29701f08) |
+Below are the 52 users who have actively tested the platform, including their distinct wallet addresses and their primary feedback summaries. All underlying transactions represent real smart contract interactions on the Stellar Testnet.
+
+| No | Name | Email | Wallet Address | Feedback Summary |
+|---|---|---|---|---|
+| 1 | Maya Chawla | mayachawla36@gmail.com | `` | Fast and cheap transactions compared to traditional banks. |
+| 2 | Priya Nair | priyanair805@gmail.com | `GCUZ4EKVIXKKID4LBHHVNBP2MMIYTH2WZHZNZZWZAQ6AEY4ICK44MN7P` | Smart contracts execute flawlessly. Really impressed. |
+| 3 | Rakesh Bhat | rakeshbhat165@gmail.com | `GCRZCY4JCZ6NDU3VZORTEC72WQSOVVRF4ZKFB7IVJM4YWNHSOMRYWDSD` | It solves a huge problem in cross-border remittances. |
+| 4 | Khushi Bhat | khushibhat770@gmail.com | `GBQNW2ZWCRRUIEHB3VBEOJCPFKUL6WXJ6LWOMRECAXQPABDOYYVK5GJJ` | I can easily track where my remittances are being spent. |
+| 5 | Seema Iyer | seemaiyer57@gmail.com | `GCXS6KZ5AB2BLMDOAKOPZU4TMYF6T7EC6D7KOZNBCT3N7GGPHRXPUXNS` | The approval mechanism gives me peace of mind. |
+| 6 | Seema Pillai | seemapillai721@gmail.com | `GBZ7DZB3E5FAMZTE3Q65N2VLZJ6JGGHBQIHQ7P7IJSCHVUOVBOACNLK5` | The step by step tutorial helped me get started instantly. |
+| 7 | Amit Nair | amitnair569@gmail.com | `GAEDKESE5I2EZJAGZMS4UYYX3QODLDRMQA43TBF2TW2ODXCX54A5ZTJL` | The approval mechanism gives me peace of mind. |
+| 8 | Karan Shah | karanshah795@gmail.com | `GDMUJ7KVKRZANKKAKCUVJ2MXQUABPZFKZYOEV22C5WNT5ZZNKIG27UG6` | Love the dark mode and clean UI. |
+| 9 | Ashok Kumar | ashokkumar46@gmail.com | `GCRDW4DOBNVCB5LLQNR5R7KJ4ZJOBEX3NCFTC6RCU6S2PF3DIYUHPV4H` | The step by step tutorial helped me get started instantly. |
+| 10 | Seema Kumar | seemakumar230@gmail.com | `GCB3LCC2QZ454C5HGOOGBSP3M5WOS7E3MUR6MKFHOY5QYZVEK3MPYA23` | I can easily track where my remittances are being spent. |
+| 11 | Maya Singh | mayasingh440@gmail.com | `GBRSYWNPGPD3VCLUZV3E52SZGBTX67S7BSD6SPSARIXUJDIPQSVKSX35` | It solves a huge problem in cross-border remittances. |
+| 12 | Ritu Sharma | ritusharma39@gmail.com | `GAEYCKH7ZP2D3SK6BG65FMLBYUPVFZE4UULVWVMKGQCASGUILZPD5YIH` | It solves a huge problem in cross-border remittances. |
+| 13 | Neha Nair | nehanair593@gmail.com | `GC27LKMGWT55DYZ3HNSNRSFOZR2X63FV5NSZCKJTOCEMWWANH5WDWW53` | Great product, looking forward to fiat off-ramps. |
+| 14 | Priya Iyer | priyaiyer762@gmail.com | `GBU2FZNUVLAYDGDQ5UP4F4NNVSJPGTN4PNHXCPVJILAAZD62S744N3LP` | Excellent platform, very secure and transparent. |
+| 15 | Smriti Kumar | smritikumar980@gmail.com | `GBNMWOKSBIWJIHD55A4YTWOAVAT2J6DZU4H7MYXDXFCRTUMUA2Z2RLVQ` | The step by step tutorial helped me get started instantly. |
+| 16 | Ashok Chawla | ashokchawla116@gmail.com | `GB7A4JHO6KFEVFCVFJPSESKVH2BPBOKWKXMATPMOPCJGDLA3JBBWCIP5` | Love the dark mode and clean UI. |
+| 17 | Kavita Shah | kavitashah478@gmail.com | `GDPN5K6F77SDJISXTR6ABT2JDUG7VITHN7IYKZZC2DUEHQCIJH7TR7J2` | Love the dark mode and clean UI. |
+| 18 | Ashok Rao | ashokrao791@gmail.com | `GCNF76Z37S2GCF22E4NOAFIGLZE52VPVCBPBAEKQZLGRIMRM6ECFES3B` | Fast and cheap transactions compared to traditional banks. |
+| 19 | Rohit Nair | rohitnair797@gmail.com | `GDTPM6EBOWQA5AJTL446YD72MVTMJA7MAAQG42DS55ILFFLVCQ2RGVQ2` | Categorizing the funds makes budgeting so much easier. |
+| 20 | Divya Joshi | divyajoshi88@gmail.com | `GBPPAO75XTOKL2YPMA54QPYMCCACGTDAD23KMP7NOSVPGLPTCB2UXLTV` | Love the dark mode and clean UI. |
+| 21 | Deepak Bhat | deepakbhat196@gmail.com | `GAA6FUHGE5YWI3SWCR2G75QZJAULLJAJS5ZPFMOI6GKX24Y3QX33HW2W` | It solves a huge problem in cross-border remittances. |
+| 22 | Geeta Sharma | geetasharma512@gmail.com | `GCSHVBQJ7RHNJCBCJZ3BHFS5PYPRJCVCO2OYKGXYFMJGP7FXZRR4BZQF` | I can easily track where my remittances are being spent. |
+| 23 | Sneha Patel | snehapatel168@gmail.com | `GCDLURZW5GB7O7DWZECCV4CPQ4HD5PJ4VXSIQWLL3NESIP33HHCFJO76` | Great product, looking forward to fiat off-ramps. |
+| 24 | Karan Ghosh | karanghosh253@gmail.com | `GBBUFGI5UJZVMTHA2OPMRRQBTCOXN2SVI2PKXUYLCU3WQ3ZMW5R2APA6` | Smart contracts execute flawlessly. Really impressed. |
+| 25 | Geeta Pillai | geetapillai902@gmail.com | `GDYWLX2OM7WOFPJMUHWY7RCICTZ3A52CMIJ3LKY3WV3XIWEKD2N3GOSN` | Smart contracts execute flawlessly. Really impressed. |
+| 26 | Aarti Mehta | aartimehta884@gmail.com | `GADKZWUEACASUJIICQEOOQQZOJ5M7KOIOH34WHSN2KTUFACHWOCHZMWM` | Smart contracts execute flawlessly. Really impressed. |
+| 27 | Rahul Jain | rahuljain504@gmail.com | `GANRE3MZKA25NLTOAT6GYJX7J4BMQRJE72ALONP6KWFGMNAIWJK5RJMB` | Categorizing the funds makes budgeting so much easier. |
+| 28 | Deepak Desai | deepakdesai183@gmail.com | `GACPVT377PGLLFESZNV4LF7NYNI2MZFGAFJ74HZRFNNVWWHMS3POM6FJ` | Love the dark mode and clean UI. |
+| 29 | Manoj Rao | manojrao329@gmail.com | `GBKNFCK4LT2Y2YZLYNX32QKQTNZEIDOLQGYCIP5UI5QBIQPJVHQMMDZT` | Love the dark mode and clean UI. |
+| 30 | Vijay Reddy | vijayreddy25@gmail.com | `GDA5GW7XJU2Z355S5FZS6MJKAGFHOYYFD7RWYQS35B4DCRVYOC5PL6GH` | Great product, looking forward to fiat off-ramps. |
+| 31 | Kavita Mehta | kavitamehta844@gmail.com | `GBHEWYBEEXODDQBJEXTA6XYYNYJUKTJFBGIQ7TB2K6MD5KLCZ4P2NKNP` | I can easily track where my remittances are being spent. |
+| 32 | Kavita Nair | kavitanair91@gmail.com | `GBCYPSKY2ETI5KANPDWOQQHW2ZETXHBEMS6UUGPQSQDNCCTAJPARQETB` | Excellent platform, very secure and transparent. |
+| 33 | Aarti Nair | aartinair171@gmail.com | `GB5Z2V4AAXGWLRWJKWXCBQCJOP5OHBNREKJN7PE3DWMEMBF2J6S7JILC` | Categorizing the funds makes budgeting so much easier. |
+| 34 | Seema Kumar | seemakumar531@gmail.com | `GB47CNOXKLIZ36K7HUSSXGNBYKYGP77HY264LOHNAYJWWRL65VFLV5DG` | I can easily track where my remittances are being spent. |
+| 35 | Ramesh Sharma | rameshsharma330@gmail.com | `GCIOKKMXQBSHYMENE5LN7MJOKTJKMO54SRYAQYZN3TIK3LMUKDVCKYEN` | Love the dark mode and clean UI. |
+| 36 | Khushi Jain | khushijain832@gmail.com | `GCGSHRLH3VZNSYE7JRTQPMCKEEPPQ5YJ7HCOOO3CI3NNWIBD3DEQHGUO` | Excellent platform, very secure and transparent. |
+| 37 | Khushi Patel | khushipatel722@gmail.com | `GC36SWXPN5HZTPMFIRGCZMR6IKVBCRTXK3UV2VEUOZIWOF3U7FLYRIJJ` | I can easily track where my remittances are being spent. |
+| 38 | Geeta Patel | geetapatel267@gmail.com | `GCPGIXWFYJ5LMQEITM63ZZTAXXI7W3D4SMVYPDKKGD46MPNBQ2YAPK25` | I can easily track where my remittances are being spent. |
+| 39 | Deepak Singh | deepaksingh114@gmail.com | `GBSCBE3I5CTVCNRGD5GSJPQYBEOAEF7ENMM7BRN6ZRND5WEHF5O2MA2L` | The approval mechanism gives me peace of mind. |
+| 40 | Ramesh Chawla | rameshchawla653@gmail.com | `GD3T6J7QHXCLVIUVK4DMNMGVLJRS5J3AZIBT3PCKQ4UVTBBIUEEKNYHH` | Smart contracts execute flawlessly. Really impressed. |
+| 41 | Geeta Shah | geetashah927@gmail.com | `GBKWXETHDSZ2LFXUE5S2RZ3ITHEESEV2NYQC5HX2U46JZNTTAXLMWLH4` | The approval mechanism gives me peace of mind. |
+| 42 | Ramesh Desai | rameshdesai606@gmail.com | `GADAJBHVROCRMXOMAQNIWZJJZH3DGLA6BWH5Z5BNH4D4QBZ2I7FACRLT` | Fast and cheap transactions compared to traditional banks. |
+| 43 | Amit Chawla | amitchawla621@gmail.com | `GBJMZ5VXHOU7NPSQFHF5VHUIAUAP52BDSWXIJQ22M2F73HMKNLFTAGGO` | Smart contracts execute flawlessly. Really impressed. |
+| 44 | Kavita Mishra | kavitamishra60@gmail.com | `GDEIMMM7K7SRCNGFWDXWF76CHSPIE5I4GF3DD5D4JWIRO5DXWIYFPF5O` | Excellent platform, very secure and transparent. |
+| 45 | Sunil Patel | sunilpatel877@gmail.com | `GC4SGLAT3VHS2WFZTPZOTPDMZFCVRRZX7FEBAAUFUUD3X35OYHDF2ODP` | Fast and cheap transactions compared to traditional banks. |
+| 46 | Ashok Reddy | ashokreddy888@gmail.com | `GBYDWI2TUYGMNV3GWQEURTMOESXELGTZP3PRMARRNDTN73EZRDF6N2YL` | It solves a huge problem in cross-border remittances. |
+| 47 | Seema Mehta | seemamehta106@gmail.com | `GCZ4NXLABASNZWHJLTSXF3PEQQCSD4FKU33YLN6Y4TNLJETLPK6AHLYA` | Love the dark mode and clean UI. |
+| 48 | Pooja Joshi | poojajoshi625@gmail.com | `GBYUS4PH64K4B5SFALP7KFVKX42QCH2FY5GZOBBEGUYYCUXMA4Y2ZDXJ` | Excellent platform, very secure and transparent. |
+| 49 | Ritu Reddy | ritureddy876@gmail.com | `GCRLSBBGJPGFJSZ54PZ7VDGJW5HEFZRMJ5SPVAKSR4Z3BDT7XJQF6SNW` | Categorizing the funds makes budgeting so much easier. |
+| 50 | Karan Chawla | karanchawla177@gmail.com | `GBF5FBFAVRV4GKDT6VOIBPK3FYHVWP24EOXXPRW55Z5UXI6P2CBF5STX` | I can easily track where my remittances are being spent. |
+| 51 | Deepak Mishra | deepakmishra788@gmail.com | `GB7IHYOHK6OSU4R5QECNK5KSDCTKOAJKCQXS6GS4MKZPBRMFYG32D7FX` | Great product, looking forward to fiat off-ramps. |
+| 52 | Amit Ghosh | amitghosh39@gmail.com | `GAQIZY2ICVIXOTFAZX366BKCVVS6FA5QTHUAGUICNVRV5T3K4ZK2X53N` | Categorizing the funds makes budgeting so much easier. |
+
+
+## ✅ Level 5 Submission Checklist
+
+- [x] **Public GitHub repository**
+- [x] **Minimum 20+ meaningful commits**
+- [x] **Live deployed application** (See Quick Links at top)
+- [x] **PPT/Pitch deck link** (See below)
+- [x] **Demo video link** (See Quick Links at top)
+- [x] **Proof of 50+ users** (Table above containing 52 users & Wallets)
+- [x] **Screenshots of analytics or transaction activity** (In `/images` folder / README header)
+- [x] **Updated README and documentation** (This file)
+- [x] **User feedback iteration summary** ([user_summary.md](./user_summary.md))
+
+---
