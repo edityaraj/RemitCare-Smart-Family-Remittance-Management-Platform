@@ -19,7 +19,9 @@ pub fn set_token(env: &Env, token: &Address) {
 }
 
 pub fn get_plan(env: &Env, plan_id: &BytesN<32>) -> Option<Plan> {
-    env.storage().persistent().get(&DataKey::Plan(plan_id.clone()))
+    env.storage()
+        .persistent()
+        .get(&DataKey::Plan(plan_id.clone()))
 }
 
 pub fn set_plan(env: &Env, plan: &Plan) {

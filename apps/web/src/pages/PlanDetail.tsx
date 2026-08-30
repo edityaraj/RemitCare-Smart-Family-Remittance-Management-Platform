@@ -30,6 +30,8 @@ export default function PlanDetail() {
     queryFn: async () => (await api.get<{ plan: RemittancePlan }>(`/plans/${id}`)).data.plan,
   });
 
+  const isSender = address === plan?.senderWallet;
+
   const { data: allocations, isLoading } = useQuery({
     queryKey: ["allocations", id],
     queryFn: async () => (await api.get<{ allocations: Allocation[] }>(`/plans/${id}/allocations`)).data.allocations,

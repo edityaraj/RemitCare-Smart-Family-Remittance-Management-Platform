@@ -67,7 +67,8 @@ impl RemitCareAllowance {
         plan.funded_amount += amount;
         plan.status = PlanStatus::Active;
         storage::set_plan(&env, &plan);
-        env.events().publish((symbol_short!("plan_fund"),), (plan_id, amount));
+        env.events()
+            .publish((symbol_short!("plan_fund"),), (plan_id, amount));
         Ok(())
     }
 
@@ -119,9 +120,10 @@ impl RemitCareAllowance {
 
     /// Receiver requests release of an allocation they are entitled to.
     pub fn request_release(env: Env, allocation_id: BytesN<32>) -> Result<(), ContractError> {
-        let mut allocation =
-            storage::get_allocation(&env, &allocation_id).ok_or(ContractError::AllocationNotFound)?;
-        let plan = storage::get_plan(&env, &allocation.plan_id).ok_or(ContractError::PlanNotFound)?;
+        let mut allocation = storage::get_allocation(&env, &allocation_id)
+            .ok_or(ContractError::AllocationNotFound)?;
+        let plan =
+            storage::get_plan(&env, &allocation.plan_id).ok_or(ContractError::PlanNotFound)?;
         plan.receiver.require_auth();
 
         if !matches!(allocation.status, AllocationStatus::Created) {
@@ -140,9 +142,10 @@ impl RemitCareAllowance {
 
     /// Sender approves a pending release request.
     pub fn approve_release(env: Env, allocation_id: BytesN<32>) -> Result<(), ContractError> {
-        let mut allocation =
-            storage::get_allocation(&env, &allocation_id).ok_or(ContractError::AllocationNotFound)?;
-        let plan = storage::get_plan(&env, &allocation.plan_id).ok_or(ContractError::PlanNotFound)?;
+        let mut allocation = storage::get_allocation(&env, &allocation_id)
+            .ok_or(ContractError::AllocationNotFound)?;
+        let plan =
+            storage::get_plan(&env, &allocation.plan_id).ok_or(ContractError::PlanNotFound)?;
         plan.sender.require_auth();
 
         if !matches!(allocation.status, AllocationStatus::Requested) {
@@ -157,9 +160,10 @@ impl RemitCareAllowance {
 
     /// Receiver claims an approved allocation; contract pays out the token.
     pub fn claim_allocation(env: Env, allocation_id: BytesN<32>) -> Result<(), ContractError> {
-        let mut allocation =
-            storage::get_allocation(&env, &allocation_id).ok_or(ContractError::AllocationNotFound)?;
-        let mut plan = storage::get_plan(&env, &allocation.plan_id).ok_or(ContractError::PlanNotFound)?;
+        let mut allocation = storage::get_allocation(&env, &allocation_id)
+            .ok_or(ContractError::AllocationNotFound)?;
+        let mut plan =
+            storage::get_plan(&env, &allocation.plan_id).ok_or(ContractError::PlanNotFound)?;
         plan.receiver.require_auth();
 
         match allocation.status {
@@ -180,7 +184,8 @@ impl RemitCareAllowance {
         storage::set_allocation(&env, &allocation);
 
         plan.released_amount += allocation.amount;
-        if plan.released_amount == plan.funded_amount && plan.allocated_amount == plan.funded_amount {
+        if plan.released_amount == plan.funded_amount && plan.allocated_amount == plan.funded_amount
+        {
             plan.status = PlanStatus::Completed;
         }
         storage::set_plan(&env, &plan);
@@ -193,9 +198,10 @@ impl RemitCareAllowance {
     /// Sender cancels an allocation that has not yet been claimed, freeing
     /// its amount back into the plan's available (un-allocated) balance.
     pub fn cancel_allocation(env: Env, allocation_id: BytesN<32>) -> Result<(), ContractError> {
-        let mut allocation =
-            storage::get_allocation(&env, &allocation_id).ok_or(ContractError::AllocationNotFound)?;
-        let mut plan = storage::get_plan(&env, &allocation.plan_id).ok_or(ContractError::PlanNotFound)?;
+        let mut allocation = storage::get_allocation(&env, &allocation_id)
+            .ok_or(ContractError::AllocationNotFound)?;
+        let mut plan =
+            storage::get_plan(&env, &allocation.plan_id).ok_or(ContractError::PlanNotFound)?;
         plan.sender.require_auth();
 
         if matches!(allocation.status, AllocationStatus::Claimed) {
@@ -242,7 +248,10 @@ impl RemitCareAllowance {
         storage::get_plan(&env, &plan_id).ok_or(ContractError::PlanNotFound)
     }
 
-    pub fn get_allocation(env: Env, allocation_id: BytesN<32>) -> Result<Allocation, ContractError> {
+    pub fn get_allocation(
+        env: Env,
+        allocation_id: BytesN<32>,
+    ) -> Result<Allocation, ContractError> {
         storage::get_allocation(&env, &allocation_id).ok_or(ContractError::AllocationNotFound)
     }
 }

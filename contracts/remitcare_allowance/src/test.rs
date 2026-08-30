@@ -90,7 +90,10 @@ fn test_allocation_creation_and_exceeds_balance() {
 
     let too_big = id32(&env, 31);
     let res = client.try_create_allocation(&plan_id, &too_big, &purpose(&env, "food"), &300, &0);
-    assert!(res.is_err(), "allocation exceeding available balance must fail");
+    assert!(
+        res.is_err(),
+        "allocation exceeding available balance must fail"
+    );
 }
 
 #[test]
