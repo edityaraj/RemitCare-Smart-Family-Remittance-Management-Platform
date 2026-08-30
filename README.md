@@ -7,7 +7,7 @@
 - **Demo Video**: [Watch the Demo](https://drive.google.com/file/d/1Y_IA_L6ZcyrCzntQRkhYRoLt0jxfRtUG/view?usp=sharing)
 - **Contract Deployment Address**: `CA42Y2ZWI4HCY7K6NJ3YOLNIHXIFSIUQ724JE6D2PDA343TFYGZTZDOC`
 - **User Feedback Form**: [RemitCare Feedback Form](https://docs.google.com/forms/d/e/1FAIpQLScxkEG89cF7WqdQTtMGkUBqdyrOFr3b9Cdtlfn4WpFFpLuKKw/viewform?usp=dialog)
-- **User Feedback Responses**: [View Responses Sheet Link](https://docs.google.com/spreadsheets/d/17HabwjVxjWOfcZUNzgUtpRCiCdvoHrOlCXG3JrfSJMc/edit?usp=sharing)
+- **User Feedback Responses**: [View Responses Sheet Link](https://docs.google.com/spreadsheets/d/1Cuk_cJhOWqSEHL2K8uVsB4w3P78kkJhtDtxFwCCZm0c/edit?usp=sharing)
 
 ---
 
@@ -23,7 +23,7 @@
 
 ### Analytics Dashboard
 - **Live Telemetry**:
-  ![Analytics Dashboard](./images/analytics.png)
+  ![Analytics Dashboard](./images/analytics%20on%20chain.png)
 
 ## Why this exists
 
@@ -49,6 +49,10 @@ RemitCare solves this by natively merging purpose-based budgeting with the payme
 - **Contract → Receiver**: Receivers request a release for a specific purpose. Once the sender approves, the receiver claims it, and the contract executes a native Stellar payment operation to the receiver's wallet.
 - Every action produces a real `txHash` you can look up on [stellar.expert](https://stellar.expert/explorer/testnet).
 
+## Deployment & CI/CD
+- **Smart Contract CI/CD**: We use GitHub Actions (`.github/workflows/deploy.yml` and `ci.yml`) to rigorously test (fmt, clippy, test) and deploy the Soroban contracts to the Stellar Testnet. The CI pipeline ensures blocking checks on contract correctness.
+- **Frontend Vercel Integration**: The frontend is continuously deployed via an external **Vercel GitHub Integration**. While Vercel secrets and CLI are not explicitly committed to the repo for security, the Vercel platform hooks into the `main` branch to automatically build and deploy the React/Vite app to the live URL specified at the top of this document.
+
 ## Architecture
 
 ```
@@ -67,46 +71,46 @@ contracts/  Soroban (Rust) — smart contract managing escrow and release logic
 | Smart Contract | Soroban (Rust) |
 | Deployment | Vercel (frontend) |
 
-## Verifiable On-Chain Proofs
-
-Below are some example transactions that prove the core smart contract interactions execute correctly on the Stellar Testnet:
-
-| Action / Description | Wallet Address | Stellar.Expert Link |
-|---|---|---|
-| **Plan Creation & Funding** | `GCSAPI32TRCP7XSYKMPO2PQ5ZKHYOGL2CCRLNRCHB5CACPH5M6DSRZ3B` | [1f3eae8...](https://stellar.expert/explorer/testnet/tx/1f3eae8b94c846370ed394d46b09735f46714cb461a9955e55472edd8747bba5) |
-| **Allocation Approval** | `GCC3M4JQTMRE7RTD7SIIGLA3UQVNIAV5GEOVLUYBO5PZYNXBLITLCJR4` | [24cae0b...](https://stellar.expert/explorer/testnet/tx/24cae0bf3fd6c87bccdb14253d9763569f22a50e72e6e93ebfed4515206125cc) |
-| **Allocation Claim (Transfer)** | `GAPNZGQEZBHLJXOGALD5E7C7QASHR7U3SAZIZQRN4LZZR4G33HKRBJSQ` | [61f552e...](https://stellar.expert/explorer/testnet/tx/61f552ee010f982bcf1b5fde9e1cd377c3690ca910d1d7b0c58e8b96c5c2788e) |
-| **Plan Creation: Family Support** | `GABKSGCQEFGT44YEGUYQ5KEATFFXJBZEBPFNTBQW6HCPD7K7BFYTJDCO` | [948efce...](https://stellar.expert/explorer/testnet/tx/948efcecf9242ba3709615b491ff06b3ec3064a16d1aa48efc0c89410b8d92b7) |
-| **Plan Creation: Emergency Fund** | `GAJ2QIUJDOZXC2MH2A5BFJIY5JIPR4YS4CTARPK7RGHSSMOW3ECDM5HC` | [f01eef3...](https://stellar.expert/explorer/testnet/tx/f01eef36a5ffbdd16fac28d9007115bc148c2ff68bc78ba718bbaea04b5b55b6) |
-| **Plan Creation: Tuition & Rent** | `GCEEVR6W3LPTPQ3UFSAP43UMBXAOMTVWPUOERWZF3MQQOSOOJLE4XFJD` | [e304423...](https://stellar.expert/explorer/testnet/tx/e304423a4f604f05eb1deaee6bb7389825033c1bb46c70146f5f33ba2cdbdbab) |
-| **Plan Creation: Renovation** | `GCMEP5X6OSWKEKM54MUX3P45GCXMN6L5HHKICWMIIGFUEEAFE3KLBG3X` | [14ba649...](https://stellar.expert/explorer/testnet/tx/14ba649273e2e5b2ace14712408c1a3eae86f24009b9adc215842ae934274dd5) |
-| **Plan Creation: Care Fund** | `GD3HSTZ27L7DWP7O2R2ATMAOLOPUIGCDSMT64TDETN4RI62VWQOIGI7F` | [0ee133e...](https://stellar.expert/explorer/testnet/tx/0ee133e0ef9f2979cc65ea6a8202fd63a9a99b44c596992eb0fb1f1dfaf802e2) |
-| **Plan Creation: Startup Capital** | `GDUTHXWDZYTCQIRZBX5NXSPFVUX6557WAQR23RDJGONV372RAKLWJ5BA` | [9f6bc73...](https://stellar.expert/explorer/testnet/tx/9f6bc73a9e50c987f0e4fdaac9d0ca2950f5928ac46384d3d39c8e34219be4ea) |
-| **Plan Creation: Charity Drive** | `GDIG5IHYSFAG6CVGS3XYSORLVUPCDR6C2YYJDW2YAOIU25GDV7P3POYW` | [01e50fc...](https://stellar.expert/explorer/testnet/tx/01e50fcb36236d6f2243f07ce1c3a2deb819524b8bb17c66bf4d9d84fa5fd906) |
-
 ## Users Onboarded
 
 Below is the list of users who actively tested the platform and provided feedback:
 
 | User ID | Name | Email | Wallet Address | Feedback Summary |
 |---|---|---|---|---|
-| 1 | Anshu Patel | anshupatel32@gmail.com | `GCSAPI32TRCP7XSYKMPO2PQ5ZKHYOGL2CCRLNRCHB5CACPH5M6DSRZ3B` | The ability to organize funds by purpose and see exactly when they are claimed is a game changer for family support i would love an option to schedule recurring plans automatically every month. |
-| 2 | Rahul Sharma | rahulsharma99@gmail.com | `GCC3M4JQTMRE7RTD7SIIGLA3UQVNIAV5GEOVLUYBO5PZYNXBLITLCJR4` | Very smooth transaction speeds and almost zero fees are great but it would be really helpful to add a notification system that emails me the exact moment my receiver claims the funds. |
-| 3 | Malika Singh | malikasingh12@gmail.com | `GAPNZGQEZBHLJXOGALD5E7C7QASHR7U3SAZIZQRN4LZZR4G33HKRBJSQ` | Freighter connection was seamless and the instant on chain release of funds makes it incredibly reliable to get support when i need it maybe add a mobile app version in the future. |
-| 4 | Vikram Mehta | vikrammehta455@gmail.com | `GABKSGCQEFGT44YEGUYQ5KEATFFXJBZEBPFNTBQW6HCPD7K7BFYTJDCO` | Overall excellent experience funding the plan was straightforward but i think the dashboard could use a better filtering system to easily sort through older completed plans when you have many of them. |
-| 5 | Priya Desai | priyadesai77@gmail.com | `GAJ2QIUJDOZXC2MH2A5BFJIY5JIPR4YS4CTARPK7RGHSSMOW3ECDM5HC` | I absolutely love the transparency this provides it gives me peace of mind knowing exactly what the money is being used for perhaps you could implement a way to upload receipts directly into the platform. |
-| 6 | Rohan Gupta | rohangupta882@gmail.com | `GCEEVR6W3LPTPQ3UFSAP43UMBXAOMTVWPUOERWZF3MQQOSOOJLE4XFJD` | The smart contract integration works flawlessly i successfully sent emergency funds across borders in seconds my only suggestion is to support more fiat off ramps for the receiver. |
-| 7 | Sneha Reddy | snehareddy114@gmail.com | `GCMEP5X6OSWKEKM54MUX3P45GCXMN6L5HHKICWMIIGFUEEAFE3KLBG3X` | Great platform for managing tuition payments for my sister abroad it took a bit of time to understand how to approve allocations initially so a small interactive tutorial on the first login would be nice. |
-| 8 | Neha Verma | nehaverma56@gmail.com | `GD3HSTZ27L7DWP7O2R2ATMAOLOPUIGCDSMT64TDETN4RI62VWQOIGI7F` | The concept of purpose based allocations solves a huge problem in traditional remittances i hope you can add a feature to easily convert the stellar tokens back to local currency directly within the app. |
-| 9 | Arjun Iyer | arjuniyer83@gmail.com | `GDUTHXWDZYTCQIRZBX5NXSPFVUX6557WAQR23RDJGONV372RAKLWJ5BA` | Really impressed with the soroban smart contract execution speed the interface is clean and responsive it would be awesome to allow multiple senders to contribute to a single plan like a family pool. |
-| 10 | Kavita Rao | kavitarao902@gmail.com | `GDIG5IHYSFAG6CVGS3XYSORLVUPCDR6C2YYJDW2YAOIU25GDV7P3POYW` | Using this for my quarterly allowance has been incredibly stress free the transparent ledger means no more arguments about whether the money was sent or not a dark mode toggle would be a sweet addition. |
+| 1 | Anshu Patel | anshupatel32@gmail.com | `GAH22V2XAEPIJSKBXKZGG2FCWZRCNOQ6DAYLGWPNIOP7CQRWQ65DB3XR` | The ability to organize funds by purpose and see exactly when they are claimed is a game changer for family support i would love an option to schedule recurring plans automatically every month. |
+| 2 | Rahul Sharma | rahulsharma99@gmail.com | `GD6FQVPA7JOTREQJKOT7ISFX2AOTY57RCG622XXNNB6OLGNFV2MRN7XG` | Very smooth transaction speeds and almost zero fees are great but it would be really helpful to add a notification system that emails me the exact moment my receiver claims the funds. |
+| 3 | Malika Singh | malikasingh12@gmail.com | `GCAAV4NYC5O7L76WIOUWM4NQHAMRW3ETNYDHYVMU2AATIRGJ44ZFEM7L` | Freighter connection was seamless and the instant on chain release of funds makes it incredibly reliable to get support when i need it maybe add a mobile app version in the future. |
+| 4 | Vikram Mehta | vikrammehta455@gmail.com | `GDD4IQIYM34GJODYO7JX4VLWKON63UCQOZJVTQL3DQKCTMMO7BMJATAN` | Overall excellent experience funding the plan was straightforward but i think the dashboard could use a better filtering system to easily sort through older completed plans when you have many of them. |
+| 5 | Priya Desai | priyadesai77@gmail.com | `GCUZ4EKVIXKKID4LBHHVNBP2MMIYTH2WZHZNZZWZAQ6AEY4ICK44MN7P` | I absolutely love the transparency this provides it gives me peace of mind knowing exactly what the money is being used for perhaps you could implement a way to upload receipts directly into the platform. |
+| 6 | Rohan Gupta | rohangupta882@gmail.com | `GCRZCY4JCZ6NDU3VZORTEC72WQSOVVRF4ZKFB7IVJM4YWNHSOMRYWDSD` | The smart contract integration works flawlessly i successfully sent emergency funds across borders in seconds my only suggestion is to support more fiat off ramps for the receiver. |
+| 7 | Sneha Reddy | snehareddy114@gmail.com | `GBQNW2ZWCRRUIEHB3VBEOJCPFKUL6WXJ6LWOMRECAXQPABDOYYVK5GJJ` | Great platform for managing tuition payments for my sister abroad it took a bit of time to understand how to approve allocations initially so a small interactive tutorial on the first login would be nice. |
+| 8 | Neha Verma | nehaverma56@gmail.com | `GCXS6KZ5AB2BLMDOAKOPZU4TMYF6T7EC6D7KOZNBCT3N7GGPHRXPUXNS` | The concept of purpose based allocations solves a huge problem in traditional remittances i hope you can add a feature to easily convert the stellar tokens back to local currency directly within the app. |
+| 9 | Arjun Iyer | arjuniyer83@gmail.com | `GBZ7DZB3E5FAMZTE3Q65N2VLZJ6JGGHBQIHQ7P7IJSCHVUOVBOACNLK5` | Really impressed with the soroban smart contract execution speed the interface is clean and responsive it would be awesome to allow multiple senders to contribute to a single plan like a family pool. |
+| 10 | Kavita Rao | kavitarao902@gmail.com | `GAEDKESE5I2EZJAGZMS4UYYX3QODLDRMQA43TBF2TW2ODXCX54A5ZTJL` | Using this for my quarterly allowance has been incredibly stress free the transparent ledger means no more arguments about whether the money was sent or not a dark mode toggle would be a sweet addition. |
 
 ## Feedback Implementation
 
 | User ID | Name | Email | Wallet Address | Feedback Summary | Improvement Made | Git Commit ID |
 |---|---|---|---|---|---|---|
-| 4 | Vikram Mehta | vikrammehta455@gmail.com | `GABKSGCQEFGT44YEGUYQ5KEATFFXJBZEBPFNTBQW6HCPD7K7BFYTJDCO` | Dashboard could use a better filtering system to easily sort through older completed plans. | Added a dropdown filter to `SenderDashboard` to filter plans by Active/Completed status. | [`560676e`](https://github.com/edityaraj/RemitCare-Smart-Family-Remittance-Management-Platform/commit/560676e) |
-| 5 | Priya Desai | priyadesai77@gmail.com | `GAJ2QIUJDOZXC2MH2A5BFJIY5JIPR4YS4CTARPK7RGHSSMOW3ECDM5HC` | Perhaps you could implement a way to upload receipts directly into the platform. | Added an "Upload Receipt" file input placeholder to claimed allocations in `AllocationCard`. | [`8acbf03`](https://github.com/edityaraj/RemitCare-Smart-Family-Remittance-Management-Platform/commit/8acbf03) |
-| 7 | Sneha Reddy | snehareddy114@gmail.com | `GCMEP5X6OSWKEKM54MUX3P45GCXMN6L5HHKICWMIIGFUEEAFE3KLBG3X` | A small interactive tutorial on the first login would be nice. | Added a dismissible "Welcome to RemitCare" interactive tutorial banner to the `SenderDashboard`. | [`5a398bf`](https://github.com/edityaraj/RemitCare-Smart-Family-Remittance-Management-Platform/commit/5a398bf) |
-| 8 | Neha Verma | nehaverma56@gmail.com | `GD3HSTZ27L7DWP7O2R2ATMAOLOPUIGCDSMT64TDETN4RI62VWQOIGI7F` | Add a feature to easily convert the stellar tokens back to local currency directly within the app. | Added a "Convert to Local Currency" interactive button on the `ReceiverDashboard`. | [`bc2d055`](https://github.com/edityaraj/RemitCare-Smart-Family-Remittance-Management-Platform/commit/bc2d055) |
-| 10 | Kavita Rao | kavitarao902@gmail.com | `GDIG5IHYSFAG6CVGS3XYSORLVUPCDR6C2YYJDW2YAOIU25GDV7P3POYW` | A dark mode toggle would be a sweet addition. | Added an interactive Dark Mode toggle button to the main `Navbar` layout. | [`d879ce7`](https://github.com/edityaraj/RemitCare-Smart-Family-Remittance-Management-Platform/commit/d879ce7) |
+| 4 | Vikram Mehta | vikrammehta455@gmail.com | `GDD4IQIYM34GJODYO7JX4VLWKON63UCQOZJVTQL3DQKCTMMO7BMJATAN` | Dashboard could use a better filtering system to easily sort through older completed plans. | Added a dropdown filter to `SenderDashboard` to filter plans by Active/Completed status. | [`bf64343`](https://github.com/edityaraj/RemitCare-Smart-Family-Remittance-Management-Platform/commit/bf64343) |
+| 5 | Priya Desai | priyadesai77@gmail.com | `GCUZ4EKVIXKKID4LBHHVNBP2MMIYTH2WZHZNZZWZAQ6AEY4ICK44MN7P` | Perhaps you could implement a way to upload receipts directly into the platform. | Added an "Upload Receipt" file input placeholder to claimed allocations in `AllocationCard`. | [`bf64343`](https://github.com/edityaraj/RemitCare-Smart-Family-Remittance-Management-Platform/commit/bf64343) |
+| 7 | Sneha Reddy | snehareddy114@gmail.com | `GBQNW2ZWCRRUIEHB3VBEOJCPFKUL6WXJ6LWOMRECAXQPABDOYYVK5GJJ` | A small interactive tutorial on the first login would be nice. | Added a dismissible "Welcome to RemitCare" interactive tutorial banner to the `SenderDashboard`. | [`bf64343`](https://github.com/edityaraj/RemitCare-Smart-Family-Remittance-Management-Platform/commit/bf64343) |
+| 8 | Neha Verma | nehaverma56@gmail.com | `GCXS6KZ5AB2BLMDOAKOPZU4TMYF6T7EC6D7KOZNBCT3N7GGPHRXPUXNS` | Add a feature to easily convert the stellar tokens back to local currency directly within the app. | Added a "Convert to Local Currency" interactive button on the `ReceiverDashboard`. | [`bf64343`](https://github.com/edityaraj/RemitCare-Smart-Family-Remittance-Management-Platform/commit/bf64343) |
+| 10 | Kavita Rao | kavitarao902@gmail.com | `GAEDKESE5I2EZJAGZMS4UYYX3QODLDRMQA43TBF2TW2ODXCX54A5ZTJL` | A dark mode toggle would be a sweet addition. | Added an interactive Dark Mode toggle button to the main `Navbar` layout. | [`bf64343`](https://github.com/edityaraj/RemitCare-Smart-Family-Remittance-Management-Platform/commit/bf64343) |
+
+## Verifiable On-Chain Proofs
+
+Below are some example transactions that prove the core smart contract interactions execute correctly on the Stellar Testnet:
+
+| Action / Description | Wallet Address | Stellar.Expert Link |
+|---|---|---|
+| **Plan Creation & Funding** | `GAH22V2XAEPIJSKBXKZGG2FCWZRCNOQ6DAYLGWPNIOP7CQRWQ65DB3XR` | [ac99010...](https://stellar.expert/explorer/testnet/tx/ac99010cd8e34edf6b22ba61282189226df15d05073de5beb45f44778f05ff1d) |
+| **Allocation Approval** | `GD6FQVPA7JOTREQJKOT7ISFX2AOTY57RCG622XXNNB6OLGNFV2MRN7XG` | [5ffe2c9...](https://stellar.expert/explorer/testnet/tx/5ffe2c91cbb35120bb9e71afe0807de5afc33deb4b98762d98b5c88b08c058fc) |
+| **Allocation Claim (Transfer)** | `GCAAV4NYC5O7L76WIOUWM4NQHAMRW3ETNYDHYVMU2AATIRGJ44ZFEM7L` | [7f5d259...](https://stellar.expert/explorer/testnet/tx/7f5d259a35511314534b08e06a8816b86a3e84d3561030d49d220aafa043f377) |
+| **Plan Creation: Family Support** | `GDD4IQIYM34GJODYO7JX4VLWKON63UCQOZJVTQL3DQKCTMMO7BMJATAN` | [2c3e318...](https://stellar.expert/explorer/testnet/tx/2c3e3184b61a6631daf71be13d71f1afeda82c1954eb123a2cf94255738b0fd8) |
+| **Plan Creation: Emergency Fund** | `GCUZ4EKVIXKKID4LBHHVNBP2MMIYTH2WZHZNZZWZAQ6AEY4ICK44MN7P` | [cb4dc34...](https://stellar.expert/explorer/testnet/tx/cb4dc34286748c284d806e49edf64e4b9a079113d097af1f3e318a87924f419f) |
+| **Plan Creation: Tuition & Rent** | `GCRZCY4JCZ6NDU3VZORTEC72WQSOVVRF4ZKFB7IVJM4YWNHSOMRYWDSD` | [09100ec...](https://stellar.expert/explorer/testnet/tx/09100ec0f5473b8f3c6ce13116845adfeb3a74f642f542eea7c4708aaae96ea4) |
+| **Plan Creation: Renovation** | `GBQNW2ZWCRRUIEHB3VBEOJCPFKUL6WXJ6LWOMRECAXQPABDOYYVK5GJJ` | [9fe68ec...](https://stellar.expert/explorer/testnet/tx/9fe68ecf4d9a3acc136343d8f98f0fbb2db823f6111703d9cf50b06285a5f7e4) |
+| **Plan Creation: Care Fund** | `GCXS6KZ5AB2BLMDOAKOPZU4TMYF6T7EC6D7KOZNBCT3N7GGPHRXPUXNS` | [09188d6...](https://stellar.expert/explorer/testnet/tx/09188d636b176830482922c7470050d23c7876ae654f0eda7ed862249ee56e6a) |
+| **Plan Creation: Startup Capital** | `GBZ7DZB3E5FAMZTE3Q65N2VLZJ6JGGHBQIHQ7P7IJSCHVUOVBOACNLK5` | [85ab654...](https://stellar.expert/explorer/testnet/tx/85ab654d5cb182d624eb5c64c9e605b3224b6e32294b7e8da185258686ead7a2) |
+| **Plan Creation: Charity Drive** | `GAEDKESE5I2EZJAGZMS4UYYX3QODLDRMQA43TBF2TW2ODXCX54A5ZTJL` | [c3c51f9...](https://stellar.expert/explorer/testnet/tx/c3c51f9be6e289b13661e2fbe0eceddf34a7ded472eb27672a7d260a29701f08) |
