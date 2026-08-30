@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { NETWORK_PASSPHRASE } from "@/services/stellar";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import confetti from "canvas-confetti";
 import { api } from "@/services/api";
 import StatusBadge from "@/components/dashboard/StatusBadge";
 import AllocationCard from "@/components/allocations/AllocationCard";
@@ -65,6 +66,11 @@ export default function PlanDetail() {
 
       await api.post(endpoint, action === "cancel" ? {} : { txHash });
       toast.success(`Allocation ${action} confirmed on-chain!`);
+      
+      if (action === "claim" || action === "approve") {
+        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+      }
+
       qc.invalidateQueries({ queryKey: ["allocations", id] });
       qc.invalidateQueries({ queryKey: ["plan", id] });
     } catch (err: any) {
